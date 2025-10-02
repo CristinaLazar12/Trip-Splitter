@@ -65,3 +65,7 @@ end
 #gem "pg", ">= 2.1"
 
 gem "pg", "~> 1.1"
+
+gem "tailwindcss-ruby", "~> 4.1"
+
+gem "tailwindcss-rails", "~> 4.3"

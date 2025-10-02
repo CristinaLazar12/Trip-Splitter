@@ -16,6 +16,12 @@ class SessionsController < ApplicationController
 
   def destroy
     terminate_session
-    redirect_to new_session_path
+    redirect_to root_path, notice: "You logged out."
+  end
+
+  private
+
+  def after_authentication_url
+    dashboard_path  # sau dashboard_path
   end
 end

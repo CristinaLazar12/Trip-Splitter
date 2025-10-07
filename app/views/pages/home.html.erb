@@ -1,10 +1,22 @@
-<div class="space-y-12">
+<div class="max-w-xl mx-auto py-10 px-4">
+  <h1 class="text-3xl font-semibold mb-3 text-center">Welcome to the app!</h1>
+  <p class="text-gray-600 mb-6">Organize your trips and share expenses with friends.</p>
 
-    <h1>Welcome to the app!</h1>
+  <% if authenticated? %>
+    <p class="mb-4">You are logged in.<%= current_user&.email_address ? " as #{current_user.email_address}" : "" %>.</p>
+    <div class="flex gap-3">
+      <%= link_to "Go to Dashboard", dashboard_path,
+          class: "px-4 py-2 rounded-md bg-gray-900 text-white" %>
+      <%= button_to "Logout", session_path, method: :delete,
+          class: "px-4 py-2 rounded-md border border-gray-300" %>
+    </div>
+  <% else %>
+    <div class="flex justify-center gap-3">
+        <%= link_to "Sign up", new_registration_path,
+            class: "px-4 py-2 rounded-md bg-gray-900 text-white" %>
+        <%= link_to "Sign in", new_session_path,
+            class: "px-4 py-2 rounded-md border border-gray-300" %>
+    </div>
 
-    <%= link_to "Sign up", new_registration_path %>
-    </br>
-    <%= link_to "Sign in", new_session_path %>
-
+  <% end %>
 </div>
-

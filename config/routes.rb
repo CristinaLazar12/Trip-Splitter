@@ -21,6 +21,5 @@ Rails.application.routes.draw do
   get  "dashboard", to: "pages#dashboard", as: :dashboard 
 
   get "pinwheel", to: "theme_pages#pinwheel", as: :pinwheel
-
   
 end

@@ -70,3 +70,5 @@ gem "tailwindcss-rails"
 gem "tailwindcss-ruby", "~> 3.4.13"
 
 gem "dartsass-rails", "~> 0.5.1"
+
+gem "pry"

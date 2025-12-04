@@ -11,6 +11,7 @@ class TripsController < ApplicationController
 
     def create
         @trip = current_user.trips.create(name: "Trip name", user_id: current_user.id)
+        @trip.creator_id = current_user.id
 
         redirect_to trip_path(@trip)
     end
@@ -18,6 +19,12 @@ class TripsController < ApplicationController
     def show
         @trip = current_user.trips.find(params[:id])
     end
-
     
+    private
+
+    def add_participant_to_trip
+    end
+
+    def only_owner_can_add_participants
+    end
 end

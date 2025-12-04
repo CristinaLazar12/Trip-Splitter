@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   resource :session
   resource :registration, only: %i[new create]
   resources :passwords, param: :token
-  resources :trips, only: [:index, :new, :create, :show]
+  resources :trips, only: [:index, :new, :create, :show] do
+      member do
+      post :add_participant_to_trip
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

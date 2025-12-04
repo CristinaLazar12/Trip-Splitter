@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_25_112715) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_03_130548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -55,8 +55,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_25_112715) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "creator_id"
+    t.index ["creator_id"], name: "index_trips_on_creator_id"
+  end
+
+  create_table "trips_users", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_trips_on_user_id"
+    t.bigint "trip_id", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -71,5 +76,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_25_112715) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "sessions", "users"
-  add_foreign_key "trips", "users"
+  add_foreign_key "trips", "users", column: "creator_id", name: "fk_trips_creator"
 end

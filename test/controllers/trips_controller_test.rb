@@ -37,4 +37,19 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         assert_response :success
     end
   
+    test "owner should add participant to trip" do
+        sign_in_as @user
+
+        #daca utilizatorul exista, adauga-l la trip
+        assert_difference("User.count") do
+
+        #daca a fost adaugat deja, arata alerta ca a fost adaugat deja
+        post add_participant_trip_url(trip), params: {
+            user_id: @user.id }
+    end
+
+    test "non owner cannot add participants to trip" do
+        sign_in_as @user
+    end
+
 end

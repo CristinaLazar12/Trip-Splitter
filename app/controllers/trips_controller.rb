@@ -10,9 +10,7 @@ class TripsController < ApplicationController
     end
 
     def create
-        @trip = current_user.trips.create(name: "Trip name", user_id: current_user.id)
-        @trip.creator_id = current_user.id
-
+        @trip = current_user.created_trips.create(name: "Trip name", creator_id: current_user.id) #setam creator_id pe current_user_id
         redirect_to trip_path(@trip)
     end
 

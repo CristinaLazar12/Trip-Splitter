@@ -2,11 +2,11 @@
 
 one:
   name: "Test User"
-  user: one
+  creator: one
   
 
 two:
   name: "Test Another User"
-  user: two
+  creator: two
   
 

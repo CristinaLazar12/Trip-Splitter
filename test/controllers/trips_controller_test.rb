@@ -41,21 +41,25 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
   
     test "owner can add existing user to trip" do
         sign_in_as @user
-        existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password")
+        existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password") #Creem un user înainte de request.
 
-        post add_participant_trip_url(@trip), params: { email_address: existing_user.email_address } #trebuie testat daca a fost adaugat un participant
+        post add_participant_trip_url(@trip), params: { email_address: existing_user.email_address } #trebuie testat daca a fost adaugat un participant; Trimitem request-ul post care introduce un email existent si apasă „Add participant”
 
-        assert @trip.users.include?(existing_user)
+        assert @trip.users.include?(existing_user) #verificam că userul a fost adăugat la trip
     end
 
-    test "owner can add non existing user to trip" do 
+    test "owner can add non existing user to trip" do #vrem sa adaugam un user care nu exista in db
         sign_in_as @user
-        #vrem sa adaugam un user care nu exista in db
-        #avem un user nou, cu nume si email
-        email_address = "new_user@yahoo.com"
-        name = "New Participant"
-        #creem userul
-        non_existing_user = User.create(name: "New Participant", email_address: "new_user@yahoo.com")
+        name = "New Participant"   #avem un user nou, cu nume si email
+        email_address = "new_participant@yahoo.com"
+
+        assert_not User.exists?(email_address: email_address)   #trebuie sa verificam ca nu exista in DB
+
+        post add_participant_trip_url(@trip), params: { email_address: email_address, name: name } #vrem sa il adaugam
+
+        created_user = User.find_by(email_address: email_address)  #userul exista acum?
+
+        assert @trip.users.include?(created_user)   #verificam ca userul a fost adaugat la trip
     end
 
     test "non creator cannot add participants to trip" do       

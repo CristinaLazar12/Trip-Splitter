@@ -62,6 +62,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_03_083533) do
   create_table "trips_users", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "trip_id", null: false
+    t.index ["trip_id", "user_id"], name: "index_trips_users_on_trip_id_and_user_id"
+    t.index ["user_id", "trip_id"], name: "index_trips_users_on_user_id_and_trip_id"
   end
 
   create_table "users", force: :cascade do |t|

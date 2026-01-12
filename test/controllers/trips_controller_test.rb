@@ -4,7 +4,8 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
 
     setup do
         @trip  = trips(:one)
-        @user  = users(:one)      
+        @user  = users(:one)
+        non_creator = users(:two)      
     end
 
     test "should get index" do
@@ -38,15 +39,23 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         assert_response :success
     end
   
-    test "owner should add participant to trip" do
+    test "owner can add existing user to trip" do
         sign_in_as @user
-        post add_participant_trip_url(@trip)
-        assert_redirected_to trip_url(@trip)
+        existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password")
 
+        post add_participant_trip_url(@trip), params: { email_address: existing_user.email_address } #trebuie testat daca a fost adaugat un participant
+
+        assert @trip.users.include?(existing_user)
     end
 
-    test "non creator cannot add participants to trip" do
+    test "owner can add non existing user to trip" do
         sign_in_as @user
+    end
+
+    test "non creator cannot add participants to trip" do       
+        sign_in_as non_creator
+        post add_participant_trip_url(@trip)
+        assert_redirected_to trip_url(@trip)
     end
 
 end

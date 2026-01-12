@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :trips, only: [:index, :new, :create, :show] do
       member do
-      post :add_participant_to_trip
+      post :add_participant
     end
   end
 

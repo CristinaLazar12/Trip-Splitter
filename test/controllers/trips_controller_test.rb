@@ -48,8 +48,14 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         assert @trip.users.include?(existing_user)
     end
 
-    test "owner can add non existing user to trip" do
+    test "owner can add non existing user to trip" do 
         sign_in_as @user
+        #vrem sa adaugam un user care nu exista in db
+        #avem un user nou, cu nume si email
+        email_address = "new_user@yahoo.com"
+        name = "New Participant"
+        #creem userul
+        non_existing_user = User.create(name: "New Participant", email_address: "new_user@yahoo.com")
     end
 
     test "non creator cannot add participants to trip" do       

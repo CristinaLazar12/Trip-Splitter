@@ -33,7 +33,7 @@ class TripsController < ApplicationController
             #- creez user
             # - îl adaug
 
-    def add_participant        
+    def add_participant        #de ce metoda nu trebuie sa fie private?
         trip = Trip.find(params[:id])
         user = User.find_by(email_address: params[:email_address])
 

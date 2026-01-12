@@ -64,8 +64,8 @@ class TripsController < ApplicationController
 
     def only_creator_can_add_participants_to_trip
         trip = Trip.find(params[:id]) #cautam tripul actual in DB
-        if trip.creator_id != current_user.id #daca creatorul tripului nu este la fel ca userul current, 
-            redirect_to trip_path(trip), error: "" #redirectioneaza la pagina tripului; Dacă NU e creator: îl redirecționezi la pagina tripului oprești efectiv acțiunea (Rails nu mai ajunge la add_participant)
+        unless trip.creator_id == current_user.id #doar daca creatorul tripului nu este la fel ca userul current, 
+            redirect_to trip_path(trip), alert: "Nu ai permisiunea sa adaugi participanti la trip." #redirectioneaza la pagina tripului; Dacă NU e creator: îl redirecționezi la pagina tripului oprești efectiv acțiunea (Rails nu mai ajunge la add_participant)
         end
     end
 end

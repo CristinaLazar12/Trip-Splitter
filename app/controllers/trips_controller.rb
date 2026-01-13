@@ -1,5 +1,7 @@
 class TripsController < ApplicationController
     before_action :require_login
+    before_action :only_creator_can_add_participants_to_trip, only: [:add_participant]
+
 
     def index
         @trips = current_user.trips #arata tripurile unui user
@@ -59,7 +61,6 @@ class TripsController < ApplicationController
 
             #redirect_to trip_path(trip), notice: "Userul a fost creat si adaugat la trip."
         
-    
     private
 
     def only_creator_can_add_participants_to_trip

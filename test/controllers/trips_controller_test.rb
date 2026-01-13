@@ -5,7 +5,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
     setup do
         @trip  = trips(:one)
         @user  = users(:one)
-        non_creator = users(:two)      
+        @non_creator = users(:two)      
     end
 
     test "should get index" do
@@ -63,12 +63,16 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "non creator cannot add participants to trip" do       
-        sign_in_as non_creator #non creatorul se logheaza
-        #non creator incearca sa adauge un participant la trip
-        post add_participant_trip_url(@trip), params: { email_address: email_address, name: name }
-        #eroare, nu ai permisiunea sa adaugi participanti la trip
+        sign_in_as @non_creator #non creatorul se logheaza
+        name = "Participant1" #avem un participant
+        email_address = "participant1@yahoo.com"
+
+        assert_no_difference("@trip.users.count") do #numărul de utilizatori asociați la trip (@trip.users.count) NU trebuie să se schimbe; non-creatorul nu are voie să adauge → tripul trebuie să aibă același număr de users ca înainte.
+        post add_participant_trip_url(@trip), params: { email_address: email_address, name: name } #trimitem parametrii către ruta add_participant pentru @trip
+        end
+
         assert_redirected_to trip_url(@trip)
-        assert_not @trip.users.include?
+        assert_equal "Nu ai permisiunea sa adaugi participanti la trip.", flash[:alert] #eroare, nu ai permisiunea sa adaugi participanti la trip
     end
 
 end

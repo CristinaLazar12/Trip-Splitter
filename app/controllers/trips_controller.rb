@@ -46,19 +46,9 @@ class TripsController < ApplicationController
             user = User.create(email_address: params[:email_address], name: params[:name], password: SecureRandom.alphanumeric(16))
             trip.users << user
         end
+
+        redirect_to trip_path(trip), notice: "Userul a fost creat si adaugat la trip."
     end
-
-        # if trip.users.exists? #daca userul deja exista la trip, notificare
-        #     redirect_to trip_path(trip), notice: "User este deja adaugat la trip."
-        # else
-        #     trip.users << user #daca nu exista, adauga-l la trip
-        #     redirect_to trip_path(trip), notice: "User a fost adaugat la trip." #După ce a fost adăugat, redirecționeaza către pagina tripului
-        # end
-        
-        # participant = User.create(name: "Participant", email_address: "test@yahoo.com", password: "password")
-        # trip.users << participant
-
-            #redirect_to trip_path(trip), notice: "Userul a fost creat si adaugat la trip."
         
     private
 

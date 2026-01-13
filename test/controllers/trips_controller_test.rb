@@ -9,19 +9,19 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "should get index" do
-        sign_in_as @user
+        sign_in_as @user #se logheaza ca si creator
         get trips_url
         assert_response :success
     end
 
     test "should get new" do
-        sign_in_as @user
+        sign_in_as @user #se logheaza ca si creator
         get new_trip_url
         assert_response :success
     end
 
     test "should create trip" do
-        sign_in_as @user
+        sign_in_as @user #se logheaza ca si creator
 
         assert_difference("Trip.count") do
         post trips_url, params: { trip: {
@@ -34,13 +34,13 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "should show trip" do
-        sign_in_as @user
+        sign_in_as @user #se logheaza ca si creator
         get trip_url(@trip)
         assert_response :success
     end
   
     test "owner can add existing user to trip" do
-        sign_in_as @user
+        sign_in_as @user #se logheaza ca si creator
         existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password") #Creem un user înainte de request.
 
         post add_participant_trip_url(@trip), params: { email_address: existing_user.email_address } #trebuie testat daca a fost adaugat un participant; Trimitem request-ul post care introduce un email existent si apasă „Add participant”
@@ -49,7 +49,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "owner can add non existing user to trip" do #vrem sa adaugam un user care nu exista in db
-        sign_in_as @user
+        sign_in_as @user #se logheaza ca si creator
         name = "New Participant"   #avem un user nou, cu nume si email
         email_address = "new_participant@yahoo.com"
 
@@ -63,9 +63,12 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "non creator cannot add participants to trip" do       
-        sign_in_as non_creator
-        post add_participant_trip_url(@trip)
+        sign_in_as non_creator #non creatorul se logheaza
+        #non creator incearca sa adauge un participant la trip
+        post add_participant_trip_url(@trip), params: { email_address: email_address, name: name }
+        #eroare, nu ai permisiunea sa adaugi participanti la trip
         assert_redirected_to trip_url(@trip)
+        assert_not @trip.users.include?
     end
 
 end

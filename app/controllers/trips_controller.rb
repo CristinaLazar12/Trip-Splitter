@@ -42,7 +42,7 @@ class TripsController < ApplicationController
                 trip.users << user
             end
         else
-            user = User.create(email_address: params[:email_address], name: params[:name])
+            user = User.create(email_address: params[:email_address], name: params[:name], password: SecureRandom.alphanumeric(16))
             trip.users << user
         end
     end

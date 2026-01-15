@@ -35,16 +35,16 @@ class TripsController < ApplicationController
             # - îl adaug
 
     def add_participant        #de ce metoda nu trebuie sa fie private?
-        trip = Trip.find(params[:id])
-        user = User.find_by(email_address: params[:email_address])
+        trip = Trip.find(params[:id]) #cautam tripul
+        user = User.find_by(email_address: params[:email_address]) #cautam userul dupa email
 
-        if user.present?
-            unless trip.users.include?(user) 
-                trip.users << user
+        if user.present? #exista userul?
+            unless trip.users.include?(user) #daca userul nu e deja inclus
+                trip.users << user #il adaugam
             end
         else
-            user = User.create(email_address: params[:email_address], name: params[:name], password: SecureRandom.alphanumeric(16))
-            trip.users << user
+            user = User.create(email_address: params[:email_address], name: params[:name], password: SecureRandom.alphanumeric(16)) #userul nu exista, asa ca il cream noi si ii punem o parola random
+            trip.users << user #dupa ce userul e creat, il adaugam la trip
         end
 
         redirect_to trip_path(trip), notice: "Userul a fost creat si adaugat la trip."

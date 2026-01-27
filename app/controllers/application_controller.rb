@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base 
   allow_browser versions: :modern 
   helper_method :current_user, :logged_in?
+
+  before_action :require_login
   
   private 
 
@@ -18,4 +20,4 @@ class ApplicationController < ActionController::Base
         redirect_to new_session_path
       end
     end
-  end
+end

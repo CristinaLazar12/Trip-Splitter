@@ -20,4 +20,12 @@ class ApplicationController < ActionController::Base
         redirect_to new_session_path
       end
     end
+
+    def start_new_session_for(user)
+      session[:current_user_id] = user.id
+    end
+
+    def terminate_session
+      session[:current_user_id] = nil
+    end
 end

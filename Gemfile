@@ -66,10 +66,9 @@ end
 
 gem "pg", "~> 1.1"
 
-gem "tailwindcss-rails"
-gem "tailwindcss-ruby", "~> 3.4.13"
+gem "cssbundling-rails"
 
-gem "dartsass-rails", "~> 0.5.1"
+gem "jsbundling-rails"
 
 gem "pry"
 

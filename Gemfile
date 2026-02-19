@@ -67,8 +67,8 @@ end
 gem "pg", "~> 1.1"
 
 gem "cssbundling-rails"
-
 gem "jsbundling-rails"
+gem 'sassc-rails'
 
 gem "pry"
 

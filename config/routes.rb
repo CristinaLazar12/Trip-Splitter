@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
   resource :registration, only: %i[new create]
   resources :passwords, param: :token, only: [:new, :create, :edit, :update]
-  resources :trips, only: [:index, :new, :create, :show] do
+  resources :trips, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
       post :add_participant
     end
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   get  "home",      to: "pages#home",      as: :home
   get  "dashboard", to: "pages#dashboard", as: :dashboard 
 
-  get "pinwheel", to: "theme_pages#pinwheel", as: :pinwheel
+  get "calendar", to: "pages#calendar", as: :calendar
   
 end
 

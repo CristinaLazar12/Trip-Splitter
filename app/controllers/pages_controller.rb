@@ -6,7 +6,10 @@ class PagesController < ApplicationController
     end
 
     def dashboard
-        
+        @trips = current_user.created_trips.order(created_at: :desc)
+    end
+
+    def calendar 
     end
 
 end

@@ -10,23 +10,35 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%= stylesheet_link_tag "application" %>
-    <%= javascript_include_tag "application" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+    <% hide_navbar = (controller_name.in?(%w[sessions registrations passwords])) %>
+    <% if logged_in? && !hide_navbar %>
+      <%= render "shared/navbar" %>
+    <% end %>
+
+    <!-- FLASH MESSAGES -->
+  <div class="container mt-3">
+    <% if notice %>
+      <div class="alert alert-success"><%= notice %></div>
+    <% end %>
+
+    <!-- SHOW NAVBAR ONLY IF LOGGED IN -->
+    <% if alert %>
+      <div class="alert alert-danger"><%= alert %></div>
+    <% end %>
+  </div>
+
+    <%= yield %>
   </body>
 </html>

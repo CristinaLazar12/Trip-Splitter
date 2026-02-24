@@ -1,42 +1,97 @@
-<% if alert = flash[:alert] %>
-  <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-<% end %>
+<main class="d-flex w-100 h-100">
+<div class="container d-flex flex-column">
+<div class="row vh-100">
+<div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
+  <div class="d-table-cell align-middle">
 
-<% if notice = flash[:notice] %>
-  <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-<% end %>
+    <div class="text-center mt-4">
+      <h1 class="h2">Welcome back!</h1>
+      <p class="lead">
+        Sign in to your account to continue
+      </p>
+    </div>
 
-<div class="card">
-  <div class="card-header">
-    <h1 class="font-bold text-4xl">Sign in</h1>
-  </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="m-sm-3">
 
-  <div class="card-body">
-    <%= form_with url: session_path, method: :post, local: true, class: "contents" do |form| %>
-      <div class="mb-5">
-        <%= form.email_field :email_address, required: true, autofocus: true,
-              autocomplete: "email",
-              placeholder: "Enter your email address",
-              value: params[:email_address],
-              class: "form-control" %>
-      </div>
+          <% if alert = flash[:alert] %>
+            <div class="alert alert-danger" role="alert">
+              <%= alert %>
+            </div>
+          <% end %>
 
-      <div class="mb-5">
-        <%= form.password_field :password, required: true,
-              autocomplete: "current-password",
-              placeholder: "Enter your password", maxlength: 72,
-              class: "form-control" %>
-      </div>
+          <% if notice = flash[:notice] %>
+            <div class="alert alert-success" role="alert">
+              <%= notice %>
+            </div>
+          <% end %>
 
-      <div class="mb-5">
-        <div class="inline">
-          <%= form.submit "Sign in", class: "btn btn-primary" %>
+          <% if false %>
+          <div class="d-grid gap-2 mb-3">
+            <a class="btn btn-google btn-lg" href="#"><i class="fab fa-fw fa-google"></i> Sign in with Google</a>
+            <a class="btn btn-facebook btn-lg" href="#"><i class="fab fa-fw fa-facebook-f"></i> Sign in with Facebook</a>
+            <a class="btn btn-microsoft btn-lg" href="/"><i class="fab fa-fw fa-microsoft"></i> Sign in with Microsoft</a>          
+          </div>
+          <% end %>
+
+          <div class="row">
+            <div class="col"><hr></div>
+            <div class="col-auto text-uppercase d-flex align-items-center">Or</div>
+            <div class="col"><hr></div>
+          </div>
+
+          <%= form_with url: session_path, method: :post, local: true do |form| %>
+
+            <div class="mb-3">
+              <%= form.label :email_address, "Email", class: "form-label" %>
+              <%= form.email_field :email_address,
+                    required: true,
+                    autofocus: true,
+                    autocomplete: "email",
+                    placeholder: "Enter your email",
+                    value: params[:email_address],
+                    class: "form-control form-control-lg" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :password, "Password", class: "form-label" %>
+              <%= form.password_field :password,
+                    required: true,
+                    autocomplete: "current-password",
+                    placeholder: "Enter your password",
+                    maxlength: 72,
+                    class: "form-control form-control-lg" %>
+
+              <small>
+                <%= link_to "Forgot password?", new_password_path, class: "text-decoration-none" %>
+              </small>
+            </div>
+
+            <div class="mb-3">
+              <div class="form-check align-items-center">
+                <%= check_box_tag "remember_me", "1", true, class: "form-check-input", id: "rememberMe" %>
+                <%= label_tag "rememberMe", "Remember me", class: "form-check-label text-small" %>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-3">
+              <%= form.submit "Sign in", class: "btn btn-lg btn-primary" %>
+            </div>
+
+          <% end %>
+
         </div>
-
-        <div class="mt-4 text-sm text-gray-500 sm:mt-0">
-          <%= link_to "Forgot password?", new_password_path, class: "" %>
-        </div>
       </div>
-    <% end %>
+    </div>
+
+    <div class="text-center mb-3">
+      Don&#39;t have an account?
+      <%= link_to "Sign up", new_registration_path, class: "text-decoration-none" %>
+    </div>
+
   </div>
 </div>
+</div>
+</div>
+</main>

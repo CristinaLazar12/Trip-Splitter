@@ -67,7 +67,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         name = "Participant1" #avem un participant
         email_address = "participant1@yahoo.com"
 
-        assert_no_difference("@trip.users.count") do #numărul de utilizatori asociați la trip (@trip.users.count) NU trebuie să se schimbe; non-creatorul nu are voie să adauge → tripul trebuie să aibă același număr de users ca înainte.
+        assert_no_difference(@trip.users.count) do #numărul de utilizatori asociați la trip (@trip.users.count) NU trebuie să se schimbe; non-creatorul nu are voie să adauge → tripul trebuie să aibă același număr de users ca înainte.
         post add_participant_trip_url(@trip), params: { email_address: email_address, name: name } #trimitem parametrii către ruta add_participant pentru @trip
         end
 

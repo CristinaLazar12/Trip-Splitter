@@ -21,8 +21,34 @@ class TripsController < ApplicationController
     end
   end
 
-  def show
-    # @trip is already set by set_trip
+  def show 
+    @trip = Trip.find(params[:id])
+  end
+
+  def edit
+    @trip = Trip.find(params[:id])
+  end
+
+  def update
+    @trip = Trip.find(params[:id])
+
+    if @trip.update(trip_params)
+      redirect_to @trip, notice: "Trip updated successfully."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @trip = Trip.find_by(id: params[:id])
+      return redirect_to trips_path, alert: "Trip not found." unless @trip
+
+      unless @trip.creator == current_user
+        return redirect_to trips_path, alert: "You can't delete a trip you didn't create."
+      end
+
+    @trip.destroy
+      redirect_to trips_path, notice: "Trip deleted successfully."
   end
 
   def add_participant

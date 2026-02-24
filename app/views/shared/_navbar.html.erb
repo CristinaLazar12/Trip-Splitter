@@ -1,0 +1,97 @@
+<nav class="navbar navbar-expand navbar-light navbar-bg">
+<% if false %>
+  <a class="sidebar-toggle js-sidebar-toggle">
+    <i class="hamburger align-self-center"></i>
+  </a>
+<% end %>
+
+  <% if false %>
+  <!-- SEARCH BAR -->
+  <form class="d-none d-sm-inline-block ms-3">
+    <div class="input-group input-group-navbar">
+      <input type="text" class="form-control" placeholder="Search…" aria-label="Search">
+      <button class="btn" type="button">
+        <i data-feather="search"></i>
+      </button>
+    </div>
+  </form>
+  <% end %>
+
+  <div class="navbar-collapse collapse">
+    <ul class="navbar-nav navbar-align">
+
+      <!-- HOME -->
+      <li class="nav-item me-2">
+        <%= link_to root_path, class: "btn btn-sm btn-primary mt-1" do %>
+          <i data-feather="home"></i>
+        <% end %>
+      </li>
+
+      <!-- CALENDAR -->
+      <li class="nav-item me-2">
+        <%= link_to calendar_path, class: "nav-icon" do %>
+          <i data-feather="calendar"></i>
+        <% end %>
+      </li>
+
+      <% if false %>
+      <!-- NOTIFICĂRI -->
+      <li class="nav-item dropdown">
+        <a class="nav-icon dropdown-toggle" href="#" data-bs-toggle="dropdown">
+          <div class="position-relative">
+            <i data-feather="bell"></i>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+          <span class="dropdown-item-text">No notifications yet</span>
+        </div>
+      </li>
+
+      <!-- MESAJE -->
+      <li class="nav-item dropdown">
+        <a class="nav-icon dropdown-toggle" href="#" data-bs-toggle="dropdown">
+          <i data-feather="message-square"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+          <span class="dropdown-item-text">No messages yet</span>
+        </div>
+      </li>
+
+      <!-- LIMBĂ -->
+      <li class="nav-item dropdown">
+        <a class="nav-flag dropdown-toggle" href="#" data-bs-toggle="dropdown">
+          🇬🇧
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+          <a class="dropdown-item" href="#">🇬🇧 English</a>
+          <a class="dropdown-item" href="#">🇪🇸 Spanish</a>
+          <a class="dropdown-item" href="#">🇩🇪 German</a>
+          <a class="dropdown-item" href="#">🇫🇷 French</a>
+        </div>
+      </li>
+      <% end %>
+
+      <!-- USER + LOGOUT -->
+      <% if logged_in? %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
+            <i data-feather="user" class="me-1"></i>
+            <span class="d-none d-md-inline"><%= current_user.name %></span>
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-end">
+            <%= link_to "Dashboard", dashboard_path, class: "dropdown-item" %>
+            <div class="dropdown-divider"></div>
+
+            <%= button_to "Log out",
+                session_path,
+                method: :delete,
+                form: { class: "m-0" },
+                class: "dropdown-item" %>
+          </div>
+        </li>
+      <% end %>
+
+    </ul>
+  </div>
+</nav>

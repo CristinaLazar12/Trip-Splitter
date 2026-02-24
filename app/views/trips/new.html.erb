@@ -1,23 +1,43 @@
-<h1 class="text-xl font-semibold mb-4">Create a Trip</h1>
+<div class="container-fluid pt-4 px-3">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
 
-<% if @trip&.errors&.any? %>
-  <div class="my-4 text-red-600">
-    <ul>
-      <% @trip.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <div class="text-center mb-4">
+        <h1 class="h3 mb-1">Create a Trip</h1>
+        <p class="text-muted mb-0">Add a name and start splitting expenses.</p>
+      </div>
+
+      <% if @trip&.errors&.any? %>
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            <% @trip.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
       <% end %>
-    </ul>
-  </div>
-<% end %>
 
-<%= form_with model: @trip, class: "contents" do |form| %>
-  <div class="my-5">
-    <%= form.text_field :name,
-      required: true,
-      placeholder: "Trip name",
-      class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
+      <div class="card">
+        <div class="card-body">
+          <%= form_with model: @trip, local: true do |form| %>
 
-  <%= form.submit "Create trip",
-    class: "rounded-md px-4 py-2 bg-black text-white" %>
-<% end %>
+            <div class="mb-3">
+              <%= form.label :name, "Trip name", class: "form-label" %>
+              <%= form.text_field :name,
+                  required: true,
+                  placeholder: "e.g. Hawaii 2026",
+                  class: "form-control form-control-lg" %>
+            </div>
+
+            <div class="d-flex gap-2">
+              <%= form.submit "Create trip", class: "btn btn-primary" %>
+              <%= link_to "Cancel", dashboard_path, class: "btn btn-outline-secondary" %>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

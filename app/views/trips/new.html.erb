@@ -1,0 +1,43 @@
+<div class="container-fluid pt-4 px-3">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+
+      <div class="text-center mb-4">
+        <h1 class="h3 mb-1">Create a Trip</h1>
+        <p class="text-muted mb-0">Add a name and start splitting expenses.</p>
+      </div>
+
+      <% if @trip&.errors&.any? %>
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            <% @trip.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="card">
+        <div class="card-body">
+          <%= form_with model: @trip, local: true do |form| %>
+
+            <div class="mb-3">
+              <%= form.label :name, "Trip name", class: "form-label" %>
+              <%= form.text_field :name,
+                  required: true,
+                  placeholder: "e.g. Hawaii 2026",
+                  class: "form-control form-control-lg" %>
+            </div>
+
+            <div class="d-flex gap-2">
+              <%= form.submit "Create trip", class: "btn btn-primary" %>
+              <%= link_to "Cancel", dashboard_path, class: "btn btn-outline-secondary" %>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: "Test User"
+  creator: one
+  
+
+two:
+  name: "Test Another User"
+  creator: two
+  
+

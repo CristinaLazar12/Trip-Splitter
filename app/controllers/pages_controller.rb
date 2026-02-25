@@ -1,12 +1,15 @@
 class PagesController < ApplicationController
-    allow_unauthenticated_access only: :home
+    before_action :require_login, only: :dashboard
 
     def home
-        redirect_to dashboard_path if authenticated?
+        redirect_to dashboard_path if logged_in?
     end
 
     def dashboard
-        redirect_to new_session_path unless authenticated?
+        @trips = current_user.created_trips.order(created_at: :desc)
+    end
+
+    def calendar 
     end
 
 end

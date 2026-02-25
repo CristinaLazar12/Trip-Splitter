@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  resource :session
+  resource :session, only: [:new, :create, :destroy]
   resource :registration, only: %i[new create]
-  resources :passwords, param: :token
+  resources :passwords, param: :token, only: [:new, :create, :edit, :update]
+  resources :trips, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+      member do
+      post :add_participant
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -19,5 +25,8 @@ Rails.application.routes.draw do
   root "pages#home"
   get  "home",      to: "pages#home",      as: :home
   get  "dashboard", to: "pages#dashboard", as: :dashboard 
+
+  get "calendar", to: "pages#calendar", as: :calendar
   
 end
+

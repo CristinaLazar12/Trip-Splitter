@@ -1,22 +1,55 @@
-<div class="max-w-xl mx-auto py-10 px-4">
-  <h1 class="text-3xl font-semibold mb-3 text-center">Welcome to the app!</h1>
-  <p class="text-gray-600 mb-6">Organize your trips and share expenses with friends.</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-6">
 
-  <% if authenticated? %>
-    <p class="mb-4">You are logged in.<%= current_user&.email_address ? " as #{current_user.email_address}" : "" %>.</p>
-    <div class="flex gap-3">
-      <%= link_to "Go to Dashboard", dashboard_path,
-          class: "px-4 py-2 rounded-md bg-gray-900 text-white" %>
-      <%= button_to "Logout", session_path, method: :delete,
-          class: "px-4 py-2 rounded-md border border-gray-300" %>
-    </div>
-  <% else %>
-    <div class="flex justify-center gap-3">
-        <%= link_to "Sign up", new_registration_path,
-            class: "px-4 py-2 rounded-md bg-gray-900 text-white" %>
-        <%= link_to "Sign in", new_session_path,
-            class: "px-4 py-2 rounded-md border border-gray-300" %>
-    </div>
+      <div class="text-center mb-4">
+        <h1 class="h2 mb-2">Welcome to Trip Splitter!</h1>
+        <p class="lead text-muted mb-0">
+          Organize your trips and share expenses with friends.
+        </p>
+      </div>
 
-  <% end %>
+      <div class="card">
+        <div class="card-body p-4">
+
+          <% if logged_in? %>
+            <p class="text-muted mb-3">
+              You are logged in
+              <% if current_user&.name.present? %>
+                as <strong><%= current_user.name %></strong>.
+              <% elsif current_user&.email_address.present? %>
+                as <strong><%= current_user.email_address %></strong>.
+              <% else %>
+                .
+              <% end %>
+            </p>
+
+            <div class="d-flex justify-content-center gap-2">
+              <%= link_to "Go to Dashboard", dashboard_path, class: "btn btn-primary" %>
+
+              <%= button_to "Logout",
+                  session_path,
+                  method: :delete,
+                  form: { class: "m-0" },
+                  class: "btn btn-outline-primary" %>
+            </div>
+
+          <% else %>
+            <div class="d-flex justify-content-center gap-2">
+              <%= link_to "Sign up", new_registration_path, class: "btn btn-primary btn-lg" %>
+              <%= link_to "Sign in", new_session_path, class: "btn btn-outline-primary btn-lg" %>
+            </div>
+
+            <div class="text-center mt-3">
+              <small class="text-muted">
+                Start by creating an account, then create a trip and add friends.
+              </small>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>

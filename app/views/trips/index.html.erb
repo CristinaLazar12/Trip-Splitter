@@ -1,0 +1,38 @@
+<div class="container-fluid pt-4 px-3">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+
+      <div class="text-center mb-4">
+
+        <h1 class="text-2xl font-bold mb-3">My Trips</h1>
+      </div>
+
+
+<% if @trips.any? %>
+  <ul class="space-y-3">
+    <% @trips.each do |trip| %>
+      <li class="p-4 border rounded-md">
+        <%= link_to trip.name, trip_path(trip), class: "underline" %>
+
+        <div class="space-x-3">
+          <%= link_to "Edit", edit_trip_path(trip), class: "text-blue-600 underline" %>
+
+          <%= link_to "Delete",
+              trip_path(trip),
+              method: :delete,
+              data: { confirm: "Are you sure?" } %>
+
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+
+<div class="card">
+        <div class="card-body text-center">
+        <p>You have no trips yet.</p>
+          <%= link_to "Create your first trip", new_trip_path, class: "underline" %>
+          <% end %>
+        </div>
+</div>
+

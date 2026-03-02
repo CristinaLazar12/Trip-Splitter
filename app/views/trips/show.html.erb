@@ -88,6 +88,33 @@
         <div class="card shadow-sm border-0 text-center" style="border-radius:14px;">
           <div class="card-body p-4">
             <div class="text-secondary fw-semibold mb-3">People</div>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#defaultModalPrimary">
+                    Add participant
+                  </button>
+
+                  <div class="modal fade" id="defaultModalPrimary" tabindex="-1" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Add a participant to this trip</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body m-3">
+                          <div class="mb-3">
+												<label class="form-label">Email Address</label>
+												<input type="email" class="form-control" data-inputmask="'alias': 'email'" inputmode="email">
+												<span class="text-muted">e.g "sarahsmith@yahoo.com"</span>
+											</div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Add participant</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
             <% if false %>
             <div class="display-6 fw-bold">4</div>
             <% end %>

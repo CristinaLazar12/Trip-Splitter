@@ -1,6 +1,6 @@
 class TripsController < ApplicationController
   before_action :require_login
-  before_action :set_trip, only: [:show, :add_participant]
+  before_action :set_trip, only: [:add_participant]
   before_action :only_creator_can_add_participants_to_trip, only: [:add_participant]
 
   def index
@@ -71,7 +71,7 @@ class TripsController < ApplicationController
   private
 
   def set_trip
-    @trip = Trip.find(params[:id])
+    @trip = current_user.created_trips.find(params[:id])
   end
 
   def trip_params

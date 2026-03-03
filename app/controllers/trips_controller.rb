@@ -65,7 +65,7 @@ class TripsController < ApplicationController
       @trip.users << user
     end
 
-    redirect_to @trip, notice: "Userul a fost creat si adaugat la trip."
+    redirect_to @trip, notice: "Participantul a fost adaugat la trip."
   end
 
   private

@@ -164,7 +164,8 @@
           </div>
 
       <hr class="my-3">
-
+      
+      <!-- Mini card pentru fiecare participant, unde apare numele si un avatar colorat -->
       <div class="d-flex flex-wrap gap-3 justify-content-start text-center mb-3">
         <% @trip.users.each do |user| %>
           <div style="width:72px;">
@@ -174,7 +175,7 @@
             </div>
 
             <div class="fw-semibold">
-              <%= user.name.presence || "Unnamed" %>
+              <%= user.name.presence %>
             </div>
           </div>
         <% end %>
@@ -203,7 +204,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <%= form_with url: add_participant_trip_path(@trip), method: :post do %>
+      <%= form_with url: add_participant_trip_path(@trip), method: :post do |form| %>
         <div class="modal-body m-3">
 
           <div class="mb-3">

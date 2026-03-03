@@ -174,9 +174,16 @@
               background-color:<%= ["#FF6B6B","#4ECDC4","#556270","#C7F464","#FFA69E","#845EC2","#2C73D2","#008E9B"].sample %>;">
             </div>
 
-            <div class="fw-semibold">
-              <%= user.name.presence %>
-            </div>
+            <div class="fw-semibold d-flex justify-content-center align-items-center gap-1">
+              <span><%= user.name %></span>
+
+              <%= button_to "×",
+                  remove_participant_trip_path(@trip, user),
+                  method: :delete,
+                  form: { class: "d-inline", data: { turbo_confirm: "Remove #{user.name}?" } },
+                  class: "btn btn-link p-0 text-muted",
+                  style: "font-size:12px;text-decoration:none;line-height:1;" %>
+              </div>
           </div>
         <% end %>
       </div>

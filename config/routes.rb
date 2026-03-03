@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :trips, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
       post :add_participant
+      delete "remove_participant/:user_id", to: "trips#remove_participant", as: :remove_participant
     end
   end
 
@@ -27,6 +28,6 @@ Rails.application.routes.draw do
   get  "dashboard", to: "pages#dashboard", as: :dashboard 
 
   get "calendar", to: "pages#calendar", as: :calendar
-  
+
 end
 

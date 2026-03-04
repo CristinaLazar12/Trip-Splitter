@@ -1,7 +1,7 @@
 class TripsController < ApplicationController
   before_action :require_login
-  before_action :set_trip, only: [:show, :add_participant]
-  before_action :only_creator_can_add_participants_to_trip, only: [:add_participant]
+  before_action :set_trip, only: [:add_participant, :remove_participant]
+  before_action :only_creator_can_add_participants_to_trip, only: [:add_participant, :remove_participant]
 
   def index
     @trips = current_user.created_trips
@@ -15,6 +15,7 @@ class TripsController < ApplicationController
     @trip = current_user.created_trips.build(trip_params)
 
     if @trip.save
+      @trip.users << current_user
       redirect_to @trip
     else
       render :new, status: :unprocessable_entity
@@ -65,7 +66,15 @@ class TripsController < ApplicationController
       @trip.users << user
     end
 
-    redirect_to @trip, notice: "Userul a fost creat si adaugat la trip."
+    redirect_to @trip, notice: "Participantul a fost adaugat la trip."
+  end
+
+  def remove_participant
+    user = User.find_by(id: params[:user_id])
+    
+    @trip.users.delete(user)
+
+    redirect_to @trip, notice: "Participantul a fost sters."
   end
 
   private

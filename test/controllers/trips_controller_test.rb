@@ -48,6 +48,18 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         assert @trip.users.include?(existing_user) #verificam că userul a fost adăugat la trip
     end
 
+    test "owner can remove existing user from the trip" do
+        sign_in_as @user
+        existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password") #Creem un user înainte de request.
+
+        @trip.users << existing_user #participantul este in trip
+        @trip.reload
+
+        delete remove_participant_trip_url(@trip, user_id: existing_user.id) #il stergem
+
+        assert_not @trip.users.include?(existing_user) #verificam ca nu mai e in trip
+    end
+
     test "owner can add non existing user to trip" do #vrem sa adaugam un user care nu exista in db
         sign_in_as @user #se logheaza ca si creator
         name = "New Participant"   #avem un user nou, cu nume si email
@@ -67,12 +79,25 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         name = "Participant1" #avem un participant
         email_address = "participant1@yahoo.com"
 
-        assert_no_difference(@trip.users.count) do #numărul de utilizatori asociați la trip (@trip.users.count) NU trebuie să se schimbe; non-creatorul nu are voie să adauge → tripul trebuie să aibă același număr de users ca înainte.
+        assert_no_difference("@trip.users.count") do #numărul de utilizatori asociați la trip (@trip.users.count) NU trebuie să se schimbe; non-creatorul nu are voie să adauge → tripul trebuie să aibă același număr de users ca înainte.
         post add_participant_trip_url(@trip), params: { email_address: email_address, name: name } #trimitem parametrii către ruta add_participant pentru @trip
         end
 
-        assert_redirected_to trip_url(@trip)
-        assert_equal "Nu ai permisiunea sa adaugi participanti la trip.", flash[:alert] #eroare, nu ai permisiunea sa adaugi participanti la trip
+        assert_response :not_found
+    end
+
+    test "non creator cannot remove paticipant from the trip" do
+        sign_in_as @non_creator #non creatorul se logheaza
+        existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password") #Creem un user, participant la trip.
+
+        @trip.users << existing_user #ne asiguram ca userul exista
+        @trip.reload 
+
+        delete remove_participant_trip_url(@trip, user_id: existing_user.id) #il stergem
+        @trip.reload
+
+        assert @trip.users.include?(existing_user) #verificam ca inca e in trip, ca nu ar trebui sa poata fi sters
+        assert_response :not_found
     end
 
 end

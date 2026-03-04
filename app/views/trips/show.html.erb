@@ -35,7 +35,7 @@
             </a>
           <% end %>
 
-          <% if @trip.creator_id == current_user.id %>
+          <% if trip_creator?(@trip) %>
             <div class="dropdown">
               <a class="btn btn-light border px-4 dropdown-toggle"
                  href="#"
@@ -157,7 +157,7 @@
               Participants (<%= @trip.users.count %>)
             </h5>
 
-            <% if @trip.creator_id == current_user.id %>
+            <% if trip_creator?(@trip) %>
               <button type="button"
                 class="btn btn-sm btn-primary"
                 data-bs-toggle="modal"
@@ -181,7 +181,7 @@
             <div class="fw-semibold d-flex justify-content-center align-items-center gap-1">
               <span><%= user.name %></span>
 
-              <% if @trip.creator_id == current_user.id %>
+              <% if trip_creator?(@trip) %>
               <%= button_to "×",
                   remove_participant_trip_path(@trip, user),
                   method: :delete,

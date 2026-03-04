@@ -15,6 +15,7 @@ class TripsController < ApplicationController
     @trip = current_user.created_trips.build(trip_params)
 
     if @trip.save
+      @trip.users << current_user
       redirect_to @trip
     else
       render :new, status: :unprocessable_entity

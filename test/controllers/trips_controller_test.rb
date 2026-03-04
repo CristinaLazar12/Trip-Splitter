@@ -48,6 +48,17 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         assert @trip.users.include?(existing_user) #verificam că userul a fost adăugat la trip
     end
 
+    test "owner can remove existing user from the trip" do
+        sign_in_as @user
+        existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password") #Creem un user înainte de request.
+
+        @trip.users << existing_user #participantul este in trip
+
+        delete remove_participant_trip_url(@trip, user_id: existing_user.id) #il stergem
+
+        assert_not @trip.users.include?(existing_user) #verificam ca nu mai e in trip
+    end
+
     test "owner can add non existing user to trip" do #vrem sa adaugam un user care nu exista in db
         sign_in_as @user #se logheaza ca si creator
         name = "New Participant"   #avem un user nou, cu nume si email

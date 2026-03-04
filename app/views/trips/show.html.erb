@@ -178,8 +178,14 @@
               background-color:<%= ["#FF6B6B","#4ECDC4","#556270","#C7F464","#FFA69E","#845EC2","#2C73D2","#008E9B"].sample %>;">
             </div>
 
-            <div class="fw-semibold d-flex justify-content-center align-items-center gap-1">
+            <div class="fw-semibold text-center">
               <span><%= user.name %></span>
+
+              <% if user == @trip.creator %>
+                <div class="text-muted" style="font-size:11px;">
+                  (creator)
+                </div>
+              <% end %>
 
               <% if trip_creator?(@trip) %>
               <%= button_to "×",

@@ -53,6 +53,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password") #Creem un user înainte de request.
 
         @trip.users << existing_user #participantul este in trip
+        @trip.reload
 
         delete remove_participant_trip_url(@trip, user_id: existing_user.id) #il stergem
 
@@ -82,6 +83,20 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
         post add_participant_trip_url(@trip), params: { email_address: email_address, name: name } #trimitem parametrii către ruta add_participant pentru @trip
         end
 
+        assert_response :not_found
+    end
+
+    test "non creator cannot remove paticipant from the trip" do
+        sign_in_as @non_creator #non creatorul se logheaza
+        existing_user = User.create!(name: "Participant", email_address: "test@yahoo.com", password: "password") #Creem un user, participant la trip.
+
+        @trip.users << existing_user #ne asiguram ca userul exista
+        @trip.reload 
+
+        delete remove_participant_trip_url(@trip, user_id: existing_user.id) #il stergem
+        @trip.reload
+
+        assert @trip.users.include?(existing_user) #verificam ca inca e in trip, ca nu ar trebui sa poata fi sters
         assert_response :not_found
     end
 

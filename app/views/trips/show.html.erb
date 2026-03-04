@@ -35,6 +35,7 @@
             </a>
           <% end %>
 
+          <% if @trip.creator_id == current_user.id %>
             <div class="dropdown">
               <a class="btn btn-light border px-4 dropdown-toggle"
                  href="#"
@@ -54,6 +55,7 @@
                 <% end %>
               </ul>
             </div>
+          <% end %>
           </div>
         </div>
       </div>
@@ -155,12 +157,14 @@
               Participants (<%= @trip.users.count %>)
             </h5>
 
+            <% if @trip.creator_id == current_user.id %>
               <button type="button"
                 class="btn btn-sm btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#defaultModalPrimary">
                 + Add participant
               </button>
+            <% end %>
           </div>
 
       <hr class="my-3">
@@ -177,12 +181,14 @@
             <div class="fw-semibold d-flex justify-content-center align-items-center gap-1">
               <span><%= user.name %></span>
 
+              <% if @trip.creator_id == current_user.id %>
               <%= button_to "×",
                   remove_participant_trip_path(@trip, user),
                   method: :delete,
                   form: { class: "d-inline", data: { turbo_confirm: "Remove #{user.name}?" } },
                   class: "btn btn-link p-0 text-muted",
                   style: "font-size:12px;text-decoration:none;line-height:1;" %>
+              <% end %>
               </div>
           </div>
         <% end %>

@@ -1,3 +1,8 @@
+class ApplicationController < ActionController::Base
+  include Pundit::Authorization
+  after_action :verify_authorized
+end
+
 class ApplicationController < ActionController::Base 
   allow_browser versions: :modern 
   helper_method :current_user, :logged_in?
@@ -29,3 +34,4 @@ class ApplicationController < ActionController::Base
       session[:current_user_id] = nil
     end
 end
+

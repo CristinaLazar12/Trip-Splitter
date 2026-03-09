@@ -11,9 +11,13 @@ class TripPolicy < ApplicationPolicy
     @user = user
     @trip = trip
   end
-  
-  def index?
-    true
+
+  def add_participant?
+    trip.creator_id == user.id 
+  end
+
+  def remove_participant?
+    trip.creator_id == user.id 
   end
 
   class Scope < ApplicationPolicy::Scope

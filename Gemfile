@@ -73,3 +73,5 @@ gem 'sassc-rails'
 gem "pry"
 
 gem "devise"
+
+gem "pundit"

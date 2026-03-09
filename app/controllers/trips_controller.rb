@@ -1,7 +1,6 @@
 class TripsController < ApplicationController
   before_action :require_login
   before_action :set_trip, only: [:add_participant, :remove_participant]
-  before_action :only_creator_can_add_participants_to_trip, only: [:add_participant, :remove_participant]
 
   def index
     @trips = current_user.created_trips
@@ -55,6 +54,8 @@ class TripsController < ApplicationController
   def add_participant
     user = User.find_by(email_address: params[:email_address])
 
+    authorize @trip, :add_participant?
+
     if user.present?
       @trip.users << user unless @trip.users.include?(user)
     else
@@ -67,14 +68,20 @@ class TripsController < ApplicationController
     end
 
     redirect_to @trip, notice: "Participantul a fost adaugat la trip."
+  rescue Pundit::NotAuthorizedError => e
+    redirect_to @trip, alert: "Nu ai permisiunea sa adaugi participanti la trip."
   end
 
   def remove_participant
     user = User.find_by(id: params[:user_id])
+
+    authorize @trip, :remove_participant?
     
     @trip.users.delete(user)
 
     redirect_to @trip, notice: "Participantul a fost sters."
+  rescue Pundit::NotAuthorizedError => e
+    redirect_to @trip, alert: "Nu ai permisiunea sa stergi participanti la trip."
   end
 
   private

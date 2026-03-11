@@ -43,4 +43,32 @@ class ExpenseTest < ActiveSupport::TestCase
         assert_includes expense.errors[:payer], "must exist"
     end
 
+    test "invalid when amount is 0" do
+        expense = Expense.new(amount: 0)
+        assert expense.invalid?
+        assert_includes expense.errors[:amount], "must be greater than 0"
+    end
+
+    test "invalid when amount is negative" do
+        expense = Expense.new(amount: -10)
+        assert expense.invalid?
+        assert_includes expense.errors[:amount], "must be greater than 0"
+    end
+
+    test "expense valid with all the attributes" do
+        creator = User.create(email_address: "test@test.com", password: "password")
+        trip = Trip.new(name: "Test trip", creator: creator)
+
+        expense = Expense.new(
+            title: "Dinner",
+            amount: 80,
+            currency: "RON",
+            date: Date.new(2025, 10, 10),
+            split_type: "equal",
+            trip: trip,
+            payer: creator
+        )
+
+        assert expense.valid?
+    end
 end

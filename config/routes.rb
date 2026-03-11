@@ -7,7 +7,8 @@ Rails.application.routes.draw do
       post :add_participant
       delete "remove_participant/:user_id", to: "trips#remove_participant", as: :remove_participant
     end
-  resources :expenses
+    
+    resources :expenses
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

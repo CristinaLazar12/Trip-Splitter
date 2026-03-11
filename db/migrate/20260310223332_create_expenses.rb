@@ -13,6 +13,3 @@ class CreateExpenses < ActiveRecord::Migration[8.0]
 end
 
 
-# paidBy
-# participants
-# createdBy

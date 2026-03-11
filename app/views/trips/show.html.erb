@@ -29,11 +29,9 @@
           </div>
 
           <div class="ms-auto d-flex gap-2">
-          <% if false %>
-            <a href="#" class="btn btn-primary px-4" style="border-radius:10px; font-weight:600;">
+            <a href="<%= new_trip_expense_path(@trip) %>" class="btn btn-primary px-4" style="border-radius:10px; font-weight:600;">
               Add expense
             </a>
-          <% end %>
 
           <% if trip_creator?(@trip) %>
             <div class="dropdown">

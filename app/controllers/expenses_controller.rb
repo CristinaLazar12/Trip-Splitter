@@ -27,6 +27,18 @@ class ExpensesController < ApplicationController
     @expense = @trip.expenses.find(params[:id]) #show la un singur expense, nu la toate
   end
 
+  def edit
+    @trip = Trip.find(params[:trip_id])
+    @expense = @trip.expenses.find(params[:id]) #show la un singur expense, nu la toate
+  end
+
+  def update
+
+  end
+
+  def delete
+  end
+
   private
 
   def expense_params

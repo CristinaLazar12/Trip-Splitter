@@ -43,4 +43,22 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
     get trip_expense_url(@trip, @expense)
     assert_response :success
   end
+
+  test "should edit expense" do
+    sign_in_as @user
+    get edit_trip_expense_url(@trip, @expense)
+    assert_response :success
+  end
+
+  test "should update expense" do
+    sign_in_as @user
+    patch trip_expense_url(@trip, @expense)
+    assert_response :success
+  end
+
+  test "should destroy expense" do
+    sign_in_as @user
+    delete trip_expense_url(@trip, @expense)
+    assert_response :success
+  end
 end

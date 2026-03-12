@@ -13,9 +13,12 @@ class ExpensesController < ApplicationController
   def create
     @trip = Trip.find(params[:trip_id])
     @expense = Expense.new(expense_params)
+    @expense.trip_id = @trip.id
+
+    binding.pry
 
     if @expense.save
-      redirect_to trip_expenses_url(@trip)
+      redirect_to trip_expenses_url(@trip, @expense)
     else
       render :new, status: :unprocessable_entity
     end

@@ -35,7 +35,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
         } }
         end
 
-        assert_redirected_to trip_expense_url(Expense.last)
+        assert_redirected_to trip_expense_url(@trip, Expense.last)
   end
 
   test "should show expense" do

@@ -2,7 +2,7 @@ class ExpensesController < ApplicationController
 
   def index
     @trip = Trip.find(params[:trip_id])
-    @expenses = @trip.expenses
+    @expenses = @trip.expenses #toate expenses
   end
 
   def new
@@ -13,12 +13,10 @@ class ExpensesController < ApplicationController
   def create
     @trip = Trip.find(params[:trip_id])
     @expense = Expense.new(expense_params)
-    @expense.trip_id = @trip.id
-
-    binding.pry
+    @expense.trip_id = @trip.id #corelam expenseul cu tripul
 
     if @expense.save
-      redirect_to trip_expenses_url(@trip, @expense)
+      redirect_to trip_expense_path(@trip, @expense)
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +24,7 @@ class ExpensesController < ApplicationController
   
   def show
     @trip = Trip.find(params[:trip_id])
-    @expenses = @trip.expenses
+    @expense = @trip.expenses.find(params[:id]) #show la un singur expense, nu la toate
   end
 
   private

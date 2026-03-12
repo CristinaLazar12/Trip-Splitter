@@ -36,7 +36,12 @@ class ExpensesController < ApplicationController
 
   end
 
-  def delete
+  def destroy
+    @trip = Trip.find(params[:trip_id])
+    @expense = @trip.expenses.find(params[:id]) #show la un singur expense, nu la toate
+    @expense.destroy
+
+    redirect_to trip_path, notice: "Expense deleted successfully."
   end
 
   private

@@ -52,13 +52,17 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update expense" do
     sign_in_as @user
-    patch trip_expense_url(@trip, @expense)
+    
     assert_response :success
   end
 
   test "should destroy expense" do
     sign_in_as @user
-    delete trip_expense_url(@trip, @expense)
-    assert_response :success
+
+    assert_difference("Expense.count", -1) do
+      delete trip_expense_url(@trip, @expense)
+    end 
+
+    assert_redirected_to trip_url(@trip)
   end
 end

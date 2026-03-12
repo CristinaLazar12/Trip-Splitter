@@ -1,0 +1,8 @@
+one:
+  title: Dinner
+  amount: 80
+  currency: RON
+  date: 2025-10-10 18:00:00
+  split_type: equal
+  trip: one
+  payer: one

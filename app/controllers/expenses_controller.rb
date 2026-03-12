@@ -33,7 +33,14 @@ class ExpensesController < ApplicationController
   end
 
   def update
+    @trip = Trip.find(params[:trip_id])
+    @expense = @trip.expenses.find(params[:id]) 
 
+    if @expense.update(expense_params)
+      redirect_to trip_expense_path(@trip, @expense), notice: "Expense updated successfully."
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy

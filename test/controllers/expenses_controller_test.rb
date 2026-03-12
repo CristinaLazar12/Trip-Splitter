@@ -24,7 +24,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
   test "should create expense" do
     sign_in_as @user 
 
-    assert_difference("Expense.count") do
+    assert_difference("Expense.count", +1) do
         post trip_expenses_url(@trip), params: { expense: {
             title: "Lunch",
             amount: 50,
@@ -52,8 +52,16 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update expense" do
     sign_in_as @user
-    
-    assert_response :success
+    patch trip_expense_url(@trip, @expense), params: { expense: {
+      title: "Lunch",
+      amount: 50,
+      currency: "RON",
+      date: Date.new(2025, 10, 11),
+      split_type: "equal",
+      payer_id: @user.id 
+    } }  
+
+    assert_redirected_to trip_expense_url(@trip, @expense)
   end
 
   test "should destroy expense" do

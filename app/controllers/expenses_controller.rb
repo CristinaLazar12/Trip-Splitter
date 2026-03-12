@@ -13,7 +13,9 @@ class ExpensesController < ApplicationController
   def create
     @trip = Trip.find(params[:trip_id])
     @expense = Expense.new(expense_params)
-    @expense.trip_id = @trip.id #corelam expenseul cu tripul
+    @expense.trip = @trip #corelam expenseul cu tripul
+
+    @expense.payer_id = current_user.id
 
     if @expense.save
       redirect_to trip_expense_path(@trip, @expense)
@@ -54,6 +56,6 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.require(:expense).permit(:title, :amount, :currency, :date, :split_type, :trip_id, :payer_id)
+    params.require(:expense).permit(:title, :amount, :currency, :date, :split_type)
   end
 end

@@ -18,7 +18,7 @@ class ExpensesController < ApplicationController
     @expense.payer_id = current_user.id
 
     if @expense.save
-      redirect_to trip_expense_path(@trip, @expense)
+      redirect_to trip_path(@trip)
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +26,7 @@ class ExpensesController < ApplicationController
   
   def show
     @trip = Trip.find(params[:trip_id])
-    @expense = @trip.expenses.find(params[:id]) #show la un singur expense, nu la toate
+    @expense = @trip.expenses.find(params[:id]) 
   end
 
   def edit
@@ -50,7 +50,7 @@ class ExpensesController < ApplicationController
     @expense = @trip.expenses.find(params[:id]) #show la un singur expense, nu la toate
     @expense.destroy
 
-    redirect_to trip_path, notice: "Expense deleted successfully."
+    redirect_to trip_path(@trip), notice: "Expense deleted successfully."
   end
 
   private

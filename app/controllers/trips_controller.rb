@@ -23,6 +23,7 @@ class TripsController < ApplicationController
 
   def show 
     @trip = Trip.find(params[:id])
+    @expenses = @trip.expenses
   end
 
   def edit

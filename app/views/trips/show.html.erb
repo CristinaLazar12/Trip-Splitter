@@ -99,7 +99,6 @@
       </div>
     </div>
 
-    <% if false %>
     <!-- ================= EXPENSES + PARTICIPANTS ================= -->
     <div class="row g-4 mb-4">
       <!-- Expenses (mai lat) -->
@@ -108,34 +107,21 @@
           <div class="card-body p-4">
             <h5 class="fw-bold mb-3">Expenses</h5>
             <hr class="my-3">
+            
 
+          <% @expenses.each do |expense| %>
             <div class="py-2">
               <div class="d-flex justify-content-between">
-                <div class="fw-semibold">Dinner at Tapas Bar</div>
-                <div class="fw-bold">$150.00</div>
+                <div class="fw-semibold">
+                  <%= link_to expense.title, trip_expense_path(@trip, expense), class: "expense-title" %>
+                </div>
+                <div class="fw-bold"><%= expense.currency %></div>
               </div>
-              <div class="text-secondary small">Paid by You</div>
+              <div class="text-secondary small">Paid by <%= expense.payer.name %></div>
             </div>
 
             <hr class="my-3">
-
-            <div class="py-2">
-              <div class="d-flex justify-content-between">
-                <div class="fw-semibold">Train Tickets</div>
-                <div class="fw-bold">$300.00</div>
-              </div>
-              <div class="text-secondary small">Paid by Sarah</div>
-            </div>
-
-            <hr class="my-3">
-
-            <div class="py-2">
-              <div class="d-flex justify-content-between">
-                <div class="fw-semibold">Museum Entry</div>
-                <div class="fw-bold">$80.00</div>
-              </div>
-              <div class="text-secondary small">Paid by John</div>
-            </div>
+            <% end %>
 
             <a href="#" class="d-inline-block mt-3 text-decoration-none fw-semibold" style="color:#1d6df2;">
               View all expenses
@@ -143,7 +129,6 @@
           </div>
         </div>
       </div>
-    <% end %>
 
       <!-- Participants -->
       <div class="col-lg-5">

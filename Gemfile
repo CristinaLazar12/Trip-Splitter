@@ -75,3 +75,5 @@ gem "pry"
 gem "devise"
 
 gem "pundit"
+
+gem 'money-rails'

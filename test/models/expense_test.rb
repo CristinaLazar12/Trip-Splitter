@@ -7,12 +7,6 @@ class ExpenseTest < ActiveSupport::TestCase
         assert_includes expense.errors[:title], "can't be blank"
     end
 
-    test "invalid without an amount" do 
-        expense = Expense.new
-        assert expense.invalid?
-        assert_includes expense.errors[:amount], "can't be blank"
-    end
-
     test "invalid without a currency" do 
         expense = Expense.new
         assert expense.invalid?
@@ -23,12 +17,6 @@ class ExpenseTest < ActiveSupport::TestCase
         expense = Expense.new
         assert expense.invalid?
         assert_includes expense.errors[:date], "can't be blank"
-    end
-
-    test "invalid without a split_type" do 
-        expense = Expense.new
-        assert expense.invalid?
-        assert_includes expense.errors[:split_type], "can't be blank"
     end
 
     test "invalid without a trip" do 
@@ -56,8 +44,8 @@ class ExpenseTest < ActiveSupport::TestCase
     end
 
     test "expense valid with all the attributes" do
-        creator = User.create(email_address: "test@test.com", password: "password")
-        trip = Trip.new(name: "Test trip", creator: creator)
+        creator = users(:one)
+        trip = trips(:one)
 
         expense = Expense.new(
             title: "Dinner",

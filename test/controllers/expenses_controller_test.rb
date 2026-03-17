@@ -6,7 +6,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
     @trip  = trips(:one)
     @user  = users(:one)
     @non_creator = users(:two) 
-    @expense = expenses(:one)     
+    @expense = expenses(:correct_expense)     
   end
 
   test "should get index" do
@@ -24,18 +24,34 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
   test "should create expense" do
     sign_in_as @user 
 
-    assert_difference("Expense.count", +1) do
-        post trip_expenses_url(@trip), params: { expense: {
-            title: "Lunch",
-            amount: 50,
-            currency: "RON",
-            date: Date.new(2025, 10, 11),
-            split_type: "equal",
-            payer_id: @user.id 
-        } }
-        end
+    title      = "Lunch"
+    amount     = 50
+    currency   = "RON"
+    date       = Date.new(2025, 10, 11)
+    split_type = "equal"
+    payer_id   = @user.id 
 
-        assert_redirected_to trip_url(@trip)
+    assert_difference("Expense.count", +1) do
+      post trip_expenses_url(@trip), params: { expense: {
+          title:,
+          amount:,
+          currency:,
+          date:,
+          split_type:,
+          payer_id: 
+      }}
+      end
+
+    expense = Expense.last
+
+    assert expense.title,      title
+    assert expense.amount,     amount
+    assert expense.currency,   currency
+    assert expense.date,       date
+    assert expense.split_type, split_type
+    assert expense.payer,      @user
+
+    assert_redirected_to trip_url(@trip)
   end
 
   test "should show expense" do
@@ -59,7 +75,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
       date: Date.new(2025, 10, 11),
       split_type: "equal",
       payer_id: @user.id 
-    } }  
+    }}  
 
     assert_redirected_to trip_expense_url(@trip, @expense)
   end

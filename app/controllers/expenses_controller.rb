@@ -58,7 +58,6 @@ class ExpensesController < ApplicationController
   end
 
   def expense_params
-    # :payer_id, :creator_id trebuie adaugati din form
-    params.require(:expense).permit(:title, :amount, :currency, :date, :split_type)
+    params.require(:expense).permit(:title, :amount, :currency, :date, :split_type, :payer_id)
   end
 end

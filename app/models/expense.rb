@@ -8,5 +8,4 @@ class Expense < ApplicationRecord
   validates :currency, presence: true
   validates :date, presence: true
   validates :split_type, presence: true
-  
 end

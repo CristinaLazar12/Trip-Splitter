@@ -7,7 +7,7 @@ class PagesController < ApplicationController
 
     def dashboard
         #@trips = current_user.created_trips.order(created_at: :desc)
-        @trips = (current_user.trips + current_user.created_trips)
+        @trips = (current_user.trips + current_user.created_trips).uniq
     end
 
     def calendar 

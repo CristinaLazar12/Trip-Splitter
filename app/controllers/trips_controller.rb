@@ -42,14 +42,14 @@ class TripsController < ApplicationController
 
   def destroy
     @trip = Trip.find_by(id: params[:id])
-      return redirect_to trips_path, alert: "Trip not found." unless @trip
+      return redirect_to dashboard_path, alert: "Trip not found." unless @trip
 
       unless @trip.creator == current_user
-        return redirect_to trips_path, alert: "You can't delete a trip you didn't create."
+        return redirect_to dashboard_path, alert: "You can't delete a trip you didn't create."
       end
 
     @trip.destroy
-      redirect_to trips_path, notice: "Trip deleted successfully."
+      redirect_to dashboard_path, notice: "Trip deleted successfully."
   end
 
   def add_participant

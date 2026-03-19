@@ -44,8 +44,8 @@
         <%= form.collection_select :payer_id, 
                                     @trip.users, 
                                     :id, 
-                                    :name, 
-                                    { class: "form-control", required: true } %>
+                                    :name, { include_blank: true }, 
+                                    required: true %>
       </div>
 
       <div class="d-flex gap-2 mt-4">

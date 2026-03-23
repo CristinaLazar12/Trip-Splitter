@@ -1,38 +1,71 @@
-<div class="container-fluid pt-4 px-3">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6 col-xl-5">
+<main class="content">
+  <div class="container-fluid pt-0 px-3">
 
-      <div class="text-center mb-4">
-
-        <h1 class="text-2xl font-bold mb-3">My Trips</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="h3 mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">
+          Welcome back, <strong><%= current_user.name %></strong> 👋
+        </p>
       </div>
+      
+     <div class="d-flex gap-2">
+     <% if false %>
+      <a href="#" class="btn btn-light bg-white flex-fill">
+        Invite a Friend
+      </a>
+     <% end %>
 
+      <%= link_to "New Trip",
+        new_trip_path,
+      class: "btn btn-primary flex-fill" %>
+    </div>
+  </div>
 
-<% if @trips.any? %>
-  <ul class="space-y-3">
-    <% @trips.each do |trip| %>
-      <li class="p-4 border rounded-md">
-        <%= link_to trip.name, trip_path(trip), class: "underline" %>
-
-        <div class="space-x-3">
-          <%= link_to "Edit", edit_trip_path(trip), class: "text-blue-600 underline" %>
-
-          <%= link_to "Delete",
-              trip_path(trip),
-              method: :delete,
-              data: { confirm: "Are you sure?" } %>
-
+    <% if @trips.present? %>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Your trips</h5>
         </div>
-      </li>
+
+        <div class="card-body">
+          <div class="list-group">
+            <% @trips.each do |trip| %>
+              <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">
+                    <%= trip.name %>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <%= link_to "View", trip_path(trip), class: "btn btn-success" %>
+                    <%= link_to "Edit", edit_trip_path(trip), class: "btn btn-secondary" %>
+
+                    <%= button_to "Delete",
+                        trip_path(trip),
+                        method: :delete,
+                        data: { confirm: "Are you sure you want to delete this trip?" },
+                        form: { class: "m-0" },
+                        class: "btn btn-danger" %>
+                          
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <h4 class="mb-2">No trips yet ✈️</h4>
+          <p class="text-muted mb-4">
+            Create your first trip and start splitting expenses with friends.
+          </p>
+          <%= link_to "Create your first trip", new_trip_path, class: "btn btn-primary" %>
+        </div>
+      </div>
     <% end %>
-  </ul>
-<% else %>
 
-<div class="card">
-        <div class="card-body text-center">
-        <p>You have no trips yet.</p>
-          <%= link_to "Create your first trip", new_trip_path, class: "underline" %>
-          <% end %>
-        </div>
-</div>
-
+  </div>
+</main>

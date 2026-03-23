@@ -3,7 +3,7 @@ class TripsController < ApplicationController
   before_action :set_trip, only: [:add_participant, :remove_participant]
 
   def index
-    @trips = current_user.created_trips
+    @trips = (current_user.trips + current_user.created_trips).uniq
   end
 
   def new

@@ -59,6 +59,7 @@
       </div>
     </div>
 
+    <% if false %>
     <!-- ================= STATS (3 CARDS) ================= -->
     <div class="row g-4 mb-4">
       <div class="col-md-4">
@@ -71,6 +72,7 @@
           </div>
         </div>
       </div>
+      
 
       <div class="col-md-4">
         <div class="card shadow-sm border-0 text-center" style="border-radius:14px;">
@@ -98,6 +100,7 @@
         </div>
       </div>
     </div>
+    <% end %>
 
     <!-- ================= EXPENSES + PARTICIPANTS ================= -->
     <div class="row g-4 mb-4">
@@ -115,7 +118,7 @@
                 <div class="fw-semibold">
                   <%= link_to expense.title, trip_expense_path(@trip, expense), class: "expense-title" %>
                 </div>
-                <div class="fw-bold"><%= expense.currency %></div>
+                <div class="fw-bold"><%= expense.amount %> <%= expense.currency %></div>
               </div>
               <div class="text-secondary small">Paid by <%= expense.payer.name %></div>
             </div>

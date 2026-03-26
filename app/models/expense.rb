@@ -2,7 +2,7 @@ class Expense < ApplicationRecord
   belongs_to :trip
   belongs_to :payer, class_name: "User"
   enum :split_type, { equal: 0 }
-  has_many :users
+  has_and_belongs_to_many :users
 
   validates :title, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }

@@ -45,7 +45,7 @@ class UserTest < ActiveSupport::TestCase
       assert_includes trip.users, participant
     end
 
-    test "cand have expenses" do
+    test "can have expenses" do
       creator = users(:one)
       trip = trips(:one)
       user = User.create(name: "Participant", email_address: "email@test.com", password: "password")
@@ -60,7 +60,6 @@ class UserTest < ActiveSupport::TestCase
         )
         
         expense.users << user
-
         assert_includes expense.users, user
     end
 end

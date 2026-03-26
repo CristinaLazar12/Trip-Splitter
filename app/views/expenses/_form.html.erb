@@ -48,6 +48,17 @@
                                     required: true %>
       </div>
 
+      <div class="mb-3">
+        <%= form.label :user_ids, "Participants", class: "form-label" %>
+          <%= form.collection_check_boxes(:user_ids, @trip.users, :id, :name) do |c| %>
+            <div class="form-check">
+              <%= c.check_box(class: "form-check-input") %>
+              <%= c.label(class: "form-check-label") { c.text } %>
+            </div>
+          <% end %>
+      </div>
+
+
       <div class="d-flex gap-2 mt-4">
         <%= form.submit class: "btn btn-primary" %>
 

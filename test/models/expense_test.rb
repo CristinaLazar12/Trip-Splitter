@@ -59,4 +59,27 @@ class ExpenseTest < ActiveSupport::TestCase
 
         assert expense.valid?
     end
+
+    test "expense can have participants" do
+        creator = users(:one)
+        trip = trips(:one)
+        other_user = users(:two)
+
+        expense = Expense.new(
+            title: "Dinner",
+            amount: 80,
+            currency: "RON",
+            date: Date.new(2025, 10, 10),
+            split_type: "equal",
+            trip: trip,
+            payer: creator
+        )
+
+        expense.users << creator
+        expense.users << other_user
+
+        assert expense.valid?
+        assert_includes expense.users, creator
+        assert_includes expense.users, other_user
+    end
 end

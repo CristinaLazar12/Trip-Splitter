@@ -51,6 +51,12 @@ class ExpensesController < ApplicationController
     redirect_to trip_path(@trip), notice: "Expense deleted successfully."
   end
 
+  def add_participant
+  end 
+
+  def remove_participant
+  end
+
   private
 
   def set_trip

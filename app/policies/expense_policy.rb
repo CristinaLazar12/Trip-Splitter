@@ -22,6 +22,14 @@ class ExpensePolicy < ApplicationPolicy
       trip_participant?
     end
 
+    def add_participant?
+      can_manage_expense?
+    end
+
+    def remove_participant?
+      can_manage_expense?
+    end
+
     private
 
     def trip_participant?

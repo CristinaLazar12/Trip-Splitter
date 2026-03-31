@@ -29,27 +29,30 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
     currency   = "RON"
     date       = Date.new(2025, 10, 11)
     split_type = "equal"
-    payer_id   = @user.id 
+    payer_id   = @user.id
+    user_ids   = [@user.id]
 
     assert_difference("Expense.count", +1) do
-      post trip_expenses_url(@trip), params: { expense: {
+      post trip_expenses_url(@trip), params: { 
+        expense: {
           title:,
           amount:,
           currency:,
           date:,
           split_type:,
           payer_id: 
-      }}
+      }, 
+      user_ids: user_ids } 
       end
 
     expense = Expense.last
 
-    assert expense.title,      title
-    assert expense.amount,     amount
-    assert expense.currency,   currency
-    assert expense.date,       date
-    assert expense.split_type, split_type
-    assert expense.payer,      @user
+    assert_equal expense.title,      title
+    assert_equal expense.amount,     amount
+    assert_equal expense.currency,   currency
+    assert_equal expense.date,       date
+    assert_equal expense.split_type, split_type
+    assert_equal expense.payer,      @user
 
     assert_redirected_to trip_url(@trip)
   end

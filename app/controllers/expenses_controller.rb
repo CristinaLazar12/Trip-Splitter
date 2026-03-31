@@ -13,10 +13,19 @@ class ExpensesController < ApplicationController
     @expense = Expense.new(expense_params)
     @expense.trip_id = @trip.id #corelam expenseul cu tripul
 
-    # la trip ar trebui ca payer sa fie unul dintre participanti.
-    # un dropdown cu toti participantii din trip.
-
     if @expense.save
+      #1. trebuie adaugati useri la expense dupa ce se creeaza expensul
+      #2. userii trebuie sa existe deja in trip
+      #3. imi trebuie user_ids ca sa creez expense_users; deci parcurgem prin useri cu ecah do si apoi pentru fiecare
+      # user_id creez un expenseuser
+
+      params[:user_ids].each do |user_id|
+        ExpenseUser.create!(
+        expense_id: @expense.id,
+        user_id: user_id
+      )
+      end 
+
       redirect_to trip_path(@trip)
     else
       render :new, status: :unprocessable_entity
@@ -51,12 +60,6 @@ class ExpensesController < ApplicationController
     redirect_to trip_path(@trip), notice: "Expense deleted successfully."
   end
 
-  def add_participant
-  end 
-
-  def remove_participant
-  end
-
   private
 
   def set_trip
@@ -66,4 +69,5 @@ class ExpensesController < ApplicationController
   def expense_params
     params.require(:expense).permit(:title, :amount, :currency, :date, :split_type, :payer_id)
   end
+
 end

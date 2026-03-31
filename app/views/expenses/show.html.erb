@@ -32,7 +32,9 @@
 
           <p>
             <strong>Participants:</strong>
-            <%= @expense.users.name %>
+            <% @expense.users.each do |user| %>
+              <%= user.name %>
+            <% end %>
           </p>
 
           <hr class="my-4">

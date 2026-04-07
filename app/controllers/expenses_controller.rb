@@ -18,9 +18,8 @@ class ExpensesController < ApplicationController
       #2. userii trebuie sa existe deja in trip
       #3. imi trebuie user_ids ca sa creez expense_users; deci parcurgem prin useri cu ecah do si apoi pentru fiecare
       # user_id creez un expenseuser
-
       params[:user_ids].each do |user_id|
-        ExpenseUser.create!(
+        ExpensesUser.create!(
         expense_id: @expense.id,
         user_id: user_id
       )

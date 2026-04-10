@@ -12,13 +12,13 @@ class ExpensesController < ApplicationController
   def create
     @expense = Expense.new(expense_params)
     @expense.trip_id = @trip.id #corelam expenseul cu tripul
-
     if @expense.save
       #1. trebuie adaugati useri la expense dupa ce se creeaza expensul
       #2. userii trebuie sa existe deja in trip
       #3. imi trebuie user_ids ca sa creez expense_users; deci parcurgem prin useri cu ecah do si apoi pentru fiecare
       # user_id creez un expenseuser
-      params[:user_ids].each do |user_id|
+      params[:expense][:user_ids].each do |user_id|
+        next if user_id.blank?
         ExpensesUser.create!(
         expense_id: @expense.id,
         user_id: user_id

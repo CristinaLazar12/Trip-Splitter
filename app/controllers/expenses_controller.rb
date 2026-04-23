@@ -11,20 +11,25 @@ class ExpensesController < ApplicationController
 
   def create
     @expense = Expense.new(expense_params)
-    @expense.trip_id = @trip.id #corelam expenseul cu tripul
+    @expense.trip_id = @trip.id #corelam expenseul cu tripul; orice belongs_to = ai un _id: belongs_to :trip → trip_id
     if @expense.save
       #1. trebuie adaugati useri la expense dupa ce se creeaza expensul
       #2. userii trebuie sa existe deja in trip
       #3. imi trebuie user_ids ca sa creez expense_users; deci parcurgem prin useri cu ecah do si apoi pentru fiecare
       # user_id creez un expenseuser
+      # imi trebuie toti participantii de la un expense, deci expense_users
+      
       params[:expense][:user_ids].each do |user_id|
         next if user_id.blank?
         ExpensesUser.create!(
         expense_id: @expense.id,
-        user_id: user_id
+        user_id: user_id,
       )
-      end 
-
+      end
+      expense_users = @expense.users 
+      # suma totala trebuie impartita la acei participanti in mod egal cu 2 zecimale
+      amount_split = (@expense.amount / expense_users.count.to_f).round(2) #l-am calculat, dar unde persista?
+      @expense.expenses_users.update_all(amount: amount_split)
       redirect_to trip_path(@trip)
     else
       render :new, status: :unprocessable_entity

@@ -7,6 +7,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
     @user  = users(:one)
     @non_creator = users(:two) 
     @expense = expenses(:correct_expense)     
+    @expenses_users = expenses_users(:one)
   end
 
   test "should get index" do
@@ -93,4 +94,65 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to trip_url(@trip)
   end
+
+  test "equal_amount_split" do
+    sign_in_as @user
+    #tre sa fac request cu post catre controller ca se creeaza expensul si ca se creaza expense user cu amountul meu
+    post trip_expenses_url(@trip), params: {
+        expense: {
+          title: "Lunch",
+          amount: 50,
+          currency: "RON",
+          date: Date.new(2025, 10, 11),
+          split_type: "equal",
+          payer_id: @user.id,
+          user_ids: [@user.id, @non_creator.id]
+       } }
+       expense = Expense.last
+       expense_user = expense.expenses_users.find_by(user_id: @user.id)
+    assert_equal 25, expense_user.amount
+  end
+
+  test "expense is valid if payer is not a participant at expense" do
+    sign_in_as @user
+    post trip_expenses_url(@trip), params: {
+        expense: {
+          title: "Lunch",
+          amount: 50,
+          currency: "RON",
+          date: Date.new(2025, 10, 11),
+          split_type: "equal",
+          payer_id: @user.id,
+          user_ids: [@non_creator.id]
+       } }
+    expense = Expense.last
+    expense.payer_id = @user.id
+    #testul e valid daca payerul nu e in expenses_users
+    assert_not expense.expenses_users.exists?(user_id: @user.id)
+    assert expense.valid?
+  end
+
+  test "amount splits only once when payer is not a participant" do
+    sign_in_as @user
+    post trip_expenses_url(@trip), params: {
+        expense: {
+          title: "Lunch",
+          amount: 50,
+          currency: "RON",
+          date: Date.new(2025, 10, 11),
+          split_type: "equal",
+          payer_id: @user.id,
+          user_ids: [@non_creator.id]
+       } }
+    expense = Expense.last
+    expense_user = expense.expenses_users.find_by(user_id: @non_creator.id)
+
+    assert_equal 50, expense_user.amount
+  end
 end
+
+  #user iau din fixtures
+  #expense, expense_user le creez in controller
+  #din fixtures iau ce nu e relevant pentru testul meu... ceva ce e creat deja, nu e relevant pentru test, ca nu asta testez,
+  #dar imi trebuie sa iau
+# sa verific ca pe expese_user e corect amountu

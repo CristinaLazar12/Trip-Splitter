@@ -82,6 +82,15 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
       payer_id: @user.id 
     }}  
 
+    @expense.reload
+
+    assert_equal "Lunch", @expense.title  
+    assert_equal 50, @expense.amount
+    assert_equal "RON", @expense.currency
+    assert_equal Date.new(2025, 10, 11), @expense.date
+    assert_equal "equal", @expense.split_type
+    assert_equal @user.id, @expense.payer_id
+
     assert_redirected_to trip_expense_url(@trip, @expense)
   end
 
@@ -95,7 +104,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to trip_url(@trip)
   end
 
-  test "equal_amount_split" do
+  test "amount is split equally between the 2 participants" do
     sign_in_as @user
     #tre sa fac request cu post catre controller ca se creeaza expensul si ca se creaza expense user cu amountul meu
     post trip_expenses_url(@trip), params: {

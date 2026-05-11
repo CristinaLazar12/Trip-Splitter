@@ -21,10 +21,11 @@ class ExpensesController < ApplicationController
       
       params[:expense][:user_ids].each do |user_id|
         next if user_id.blank?
+
         ExpensesUser.create!(
-        expense_id: @expense.id,
-        user_id: user_id,
-      )
+          expense_id: @expense.id,
+          user_id: user_id,
+        )
       end
       expense_users = @expense.users 
       # suma totala trebuie impartita la acei participanti in mod egal cu 2 zecimale

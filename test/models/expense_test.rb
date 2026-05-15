@@ -74,7 +74,6 @@ class ExpenseTest < ActiveSupport::TestCase
             trip: trip,
             payer: creator
         )
-        binding.pry
         expense.users << creator
         expense.users << other_user
 

@@ -1,7 +1,7 @@
 class UserAmount
-  def initialize(user, trip)
-    @user = user
-    @trip = trip
+  def initialize(user_id, trip_id)
+    @user = User.find(user_id)
+    @trip = Trip.find(trip_id)
   end
 
   def amount_to_receive(expense)

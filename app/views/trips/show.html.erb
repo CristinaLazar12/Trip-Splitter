@@ -188,13 +188,54 @@
 
       <hr class="my-3">
       
-      <% if false %>
+      
       <div class="text-center">
         <div class="text-muted">
-          Trip balances will appear here
+          
+          <% user_amounts = UserAmount.new(current_user.id, @trip.id) %>
+
+          <% @trip.expenses.each do |expense| %>
+
+            <% if user_amounts.amount_to_receive(expense) > 0 %>
+              <p class="text-success">
+                You need to receive 
+                <%= number_to_currency(user_amounts.amount_to_receive(expense)) %>
+                from <%= expense.payer.name %>
+                for <%= expense.title %>
+              </p>
+
+            <% elsif user_amounts.amount_to_pay(expense) > 0 %>
+              <p class="text-danger">
+                You owe
+                <%= number_to_currency(user_amounts.amount_to_pay(expense)) %>
+                to <%= expense.payer.name %>
+                for <%= expense.title %>
+              </p>
+
+            <% end %>
+          <% end %>
+
+          <% if user_amounts.final_balance == 0 %>
+            <p class="text-muted">
+              You are settled up.
+            </p>
+
+          <% elsif user_amounts.final_balance > 0 %>
+            <p class="text-success">
+              Net balance:
+              <%= number_to_currency(user_amounts.final_balance) %>
+            </p>
+
+          <% elsif user_amounts.final_balance < 0 %>
+            <p class="text-danger">
+              Net balance:
+              <%= number_to_currency(user_amounts.final_balance) %>
+            </p>
+          
+          <% end %>
+        
         </div>
       </div>
-      <% end %>
 
     </div>
   </div>

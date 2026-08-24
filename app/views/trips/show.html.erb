@@ -29,11 +29,9 @@
           </div>
 
           <div class="ms-auto d-flex gap-2">
-          <% if false %>
-            <a href="#" class="btn btn-primary px-4" style="border-radius:10px; font-weight:600;">
+            <a href="<%= new_trip_expense_path(@trip) %>" class="btn btn-primary px-4" style="border-radius:10px; font-weight:600;">
               Add expense
             </a>
-          <% end %>
 
           <% if trip_creator?(@trip) %>
             <div class="dropdown">
@@ -61,6 +59,7 @@
       </div>
     </div>
 
+    <% if false %>
     <!-- ================= STATS (3 CARDS) ================= -->
     <div class="row g-4 mb-4">
       <div class="col-md-4">
@@ -73,6 +72,7 @@
           </div>
         </div>
       </div>
+      
 
       <div class="col-md-4">
         <div class="card shadow-sm border-0 text-center" style="border-radius:14px;">
@@ -100,8 +100,8 @@
         </div>
       </div>
     </div>
+    <% end %>
 
-    <% if false %>
     <!-- ================= EXPENSES + PARTICIPANTS ================= -->
     <div class="row g-4 mb-4">
       <!-- Expenses (mai lat) -->
@@ -110,34 +110,21 @@
           <div class="card-body p-4">
             <h5 class="fw-bold mb-3">Expenses</h5>
             <hr class="my-3">
+            
 
+          <% @expenses.each do |expense| %>
             <div class="py-2">
               <div class="d-flex justify-content-between">
-                <div class="fw-semibold">Dinner at Tapas Bar</div>
-                <div class="fw-bold">$150.00</div>
+                <div class="fw-semibold">
+                  <%= link_to expense.title, trip_expense_path(@trip, expense), class: "expense-title" %>
+                </div>
+                <div class="fw-bold"><%= expense.amount %> <%= expense.currency %></div>
               </div>
-              <div class="text-secondary small">Paid by You</div>
+              <div class="text-secondary small">Paid by <%= expense.payer.name %></div>
             </div>
 
             <hr class="my-3">
-
-            <div class="py-2">
-              <div class="d-flex justify-content-between">
-                <div class="fw-semibold">Train Tickets</div>
-                <div class="fw-bold">$300.00</div>
-              </div>
-              <div class="text-secondary small">Paid by Sarah</div>
-            </div>
-
-            <hr class="my-3">
-
-            <div class="py-2">
-              <div class="d-flex justify-content-between">
-                <div class="fw-semibold">Museum Entry</div>
-                <div class="fw-bold">$80.00</div>
-              </div>
-              <div class="text-secondary small">Paid by John</div>
-            </div>
+            <% end %>
 
             <a href="#" class="d-inline-block mt-3 text-decoration-none fw-semibold" style="color:#1d6df2;">
               View all expenses
@@ -145,7 +132,6 @@
           </div>
         </div>
       </div>
-    <% end %>
 
       <!-- Participants -->
       <div class="col-lg-5">
@@ -202,13 +188,77 @@
 
       <hr class="my-3">
       
-      <% if false %>
+      
       <div class="text-center">
         <div class="text-muted">
-          Trip balances will appear here
+          
+          <% user_amounts = UserAmount.new(current_user.id, @trip.id) %>
+
+          <% @trip.expenses.each do |expense| %>
+
+            <% if user_amounts.amount_to_receive(expense) > 0 %>
+            <% expense.expenses_users.each do |expenses_user| %>
+              <% next if expenses_user.user == current_user %>
+              <p class="text-success">
+                You need to receive 
+                <%= number_to_currency(user_amounts.amount_to_receive(expense),
+                unit: expense.currency,
+                format: "%n %u") %>
+                from <%= expenses_user.user.name %>
+                for <%= expense.title %>
+              </p>
+            <% end %>
+
+            <% elsif user_amounts.amount_to_pay(expense) > 0 %>
+              <p class="text-danger">
+                You owe
+                <%= number_to_currency(user_amounts.amount_to_pay(expense),
+                unit: expense.currency,
+                format: "%n %u") %>
+                to <%= expense.payer.name %>
+                for <%= expense.title %>
+              </p>
+
+            <% end %>
+          <% end %>
+
+          <% currencies = [] %>
+          <% @trip.expenses.each do |expense| %>
+            <% currencies << expense.currency %>
+          <% end %>
+
+          <% currencies = currencies.uniq %>
+
+          <% currencies.each do |currency| %>
+
+            <% if user_amounts.final_balance(currency) == 0 %>
+              <p class="text-muted">
+                You are settled up in <%= currency %>.
+              </p>
+
+            <% elsif user_amounts.final_balance(currency) > 0 %>
+              <p class="text-success">
+                Net balance:
+                <%= number_to_currency(user_amounts.final_balance(currency),
+                unit: currency,
+                format: "%n %u"
+                ) %>
+              </p>
+
+            <% elsif user_amounts.final_balance(currency) < 0 %>
+              <p class="text-danger">
+                Net balance:
+                <%= number_to_currency(user_amounts.final_balance(currency),
+                unit: currency,
+                format: "%n %u"
+                ) %>
+              </p>
+          
+            <% end %>
+          <% end %>
+        
         </div>
       </div>
-      <% end %>
 
     </div>
   </div>

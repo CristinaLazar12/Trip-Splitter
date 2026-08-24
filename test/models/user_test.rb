@@ -44,4 +44,22 @@ class UserTest < ActiveSupport::TestCase
       trip.users << participant
       assert_includes trip.users, participant
     end
+
+    test "can have expenses" do
+      creator = users(:one)
+      trip = trips(:one)
+      user = User.create(name: "Participant", email_address: "email@test.com", password: "password")
+      expense = Expense.new(
+            title: "Dinner",
+            amount: 80,
+            currency: "RON",
+            date: Date.new(2025, 10, 10),
+            split_type: "equal",
+            trip: trip,
+            payer: creator
+        )
+        
+        expense.users << user
+        assert_includes expense.users, user
+    end
 end

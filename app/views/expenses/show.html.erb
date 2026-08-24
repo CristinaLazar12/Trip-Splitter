@@ -1,0 +1,67 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+
+    <div class="col-lg-6">
+
+      <div class="card shadow-sm border-0" style="border-radius:14px;">
+        <div class="card-body p-4">
+
+          <h4 class="fw-bold mb-3"><%= @expense.title %></h4>
+
+          <hr>
+
+          <p>
+            <strong>Amount:</strong>
+            <%= @expense.amount %> <%= @expense.currency %>
+          </p>
+
+          <p>
+            <strong>Date:</strong>
+            <%= @expense.date.to_date %>
+          </p>
+
+          <p>
+            <strong>Split type:</strong>
+            <%= @expense.split_type %>
+          </p>
+
+          <p>
+            <strong>Paid by:</strong>
+            <%= @expense.payer.name %>
+          </p>
+
+          <p>
+            <strong>Participants:</strong>
+            <% @expense.users.each do |user| %>
+              <%= user.name %>
+            <% end %>
+          </p>
+
+          <hr class="my-4">
+
+          <div class="d-flex gap-2">
+
+            <%= link_to "Edit",
+                edit_trip_expense_path(@trip, @expense),
+                class: "btn btn-warning" %>
+
+            <%= button_to "Delete",
+                    trip_expense_path(@trip, @expense),
+                    method: :delete,
+                    form: { data: { turbo: false } },
+                    onclick: "return confirm('Are you sure?');",
+                    class: "btn btn-danger" %>
+
+            <%= link_to "Back",
+                trip_path(@trip),
+                class: "btn btn-secondary ms-auto" %>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

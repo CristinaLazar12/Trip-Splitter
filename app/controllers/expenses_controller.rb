@@ -51,6 +51,24 @@ class ExpensesController < ApplicationController
     authorize @expense 
 
     if @expense.update(expense_params)
+
+      ExpensesUser.where(expense_id: @expense.id).delete_all
+
+      params[:expense][:user_ids].each do |user_id|
+        next if user_id.blank?
+
+        ExpensesUser.create!(
+          expense_id: @expense.id,
+          user_id: user_id,
+        )
+      end
+
+      expense_users = @expense.users
+
+      amount_split = (@expense.amount / expense_users.count.to_f).round(2)
+
+      @expense.expenses_users.update_all(amount: amount_split)
+      
       redirect_to trip_expense_path(@trip, @expense), notice: "Expense updated successfully."
     else
       render :edit, status: :unprocessable_entity

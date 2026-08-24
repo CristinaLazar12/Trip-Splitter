@@ -26,18 +26,22 @@ class UserAmount
     end
   end
 
-  def total_to_receive
-    @trip.expenses.sum{|expense| amount_to_receive(expense) }
-    #luam toate expenses din trip; pentru fecare expense se calculeaza amount_to_receive pe acel expense si apoi se face sum
+  def total_to_receive(currency)
+    @trip.expenses
+          .where(currency: currency)
+          .sum{|expense| amount_to_receive(expense) }
+          #luam toate expenses din trip; pentru fecare expense se calculeaza amount_to_receive pe acel expense si apoi se face sum
   end
 
-  def total_to_pay
-    @trip.expenses.sum{|expense| amount_to_pay(expense) }
-    #luam toate expenses din trip; pentru fecare expense se calculeaza amount_to_ pe acel expense si apoi se face sum
+  def total_to_pay(currency)
+    @trip.expenses
+          .where(currency: currency)
+          .sum{|expense| amount_to_pay(expense) }
+          #luam toate expenses din trip; pentru fecare expense se calculeaza amount_to_ pe acel expense si apoi se face sum
   end
 
-  def final_balance
+  def final_balance(currency)
     #cat ramane la final dupa ce se scade din cat trebuie sa primeasca, cat trebuie sa dea (amount-to_receive - amount_to_pay)
-    return total_to_receive - total_to_pay
+    total_to_receive(currency) - total_to_pay(currency)
   end
 end

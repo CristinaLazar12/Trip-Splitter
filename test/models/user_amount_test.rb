@@ -42,6 +42,10 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 100, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
         assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay #Vali
 
+        assert_equal 200, UserAmount.new(@alex.id, @trip.id).final_balance #alex
+        assert_equal -100, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
+        assert_equal -100, UserAmount.new(@vali.id, @trip.id).final_balance #Vali
+
         expense = Expense.create!(title: "hotel", 
                                  amount: 150,
                                  currency: "EUR",
@@ -53,7 +57,7 @@ class UserAmountTest < ActiveSupport::TestCase
         
         ExpensesUser.create!(expense_id: expense.id, user_id: @cristina.id, amount: 75)
         ExpensesUser.create!(expense_id: expense.id, user_id: @alex.id, amount: 75)
-        binding.pry
+
         assert_equal 150, UserAmount.new(@vali.id, @trip.id).amount_to_receive(expense) #vali
         assert_equal 0, UserAmount.new(@cristina.id, @trip.id).amount_to_receive(expense) #cristina
         assert_equal 0, UserAmount.new(@alex.id, @trip.id).amount_to_receive(expense) #alex
@@ -69,6 +73,10 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay #vali
         assert_equal 175, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
         assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay #alex
+
+        assert_equal 50, UserAmount.new(@vali.id, @trip.id).final_balance #Vali
+        assert_equal -175, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
+        assert_equal 125, UserAmount.new(@alex.id, @trip.id).final_balance #alex
 
         expense = Expense.create!(title: "shopping", 
                                  amount: 100,
@@ -95,6 +103,10 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay #alex
         assert_equal 275, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
         assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay #vali
+
+        assert_equal 225, UserAmount.new(@alex.id, @trip.id).final_balance #alex
+        assert_equal -275, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
+        assert_equal 50, UserAmount.new(@vali.id, @trip.id).final_balance #vali
 
 
         expense = Expense.create!(title: "meci fotbal", 
@@ -125,6 +137,9 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 275, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
         assert_equal 200, UserAmount.new(@vali.id, @trip.id).total_to_pay #vali
 
+        assert_equal 325, UserAmount.new(@alex.id, @trip.id).final_balance #alex
+        assert_equal -275, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
+        assert_equal -50, UserAmount.new(@vali.id, @trip.id).final_balance #vali
     end
 end
 

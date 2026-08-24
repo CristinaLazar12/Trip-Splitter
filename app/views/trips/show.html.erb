@@ -197,17 +197,24 @@
           <% @trip.expenses.each do |expense| %>
 
             <% if user_amounts.amount_to_receive(expense) > 0 %>
+            <% expense.expenses_users.each do |expenses_user| %>
+              <% next if expenses_user.user == current_user %>
               <p class="text-success">
                 You need to receive 
-                <%= number_to_currency(user_amounts.amount_to_receive(expense)) %>
-                from <%= expense.payer.name %>
+                <%= number_to_currency(user_amounts.amount_to_receive(expense),
+                unit: expense.currency,
+                format: "%n %u") %>
+                from <%= expenses_user.user.name %>
                 for <%= expense.title %>
               </p>
+            <% end %>
 
             <% elsif user_amounts.amount_to_pay(expense) > 0 %>
               <p class="text-danger">
                 You owe
-                <%= number_to_currency(user_amounts.amount_to_pay(expense)) %>
+                <%= number_to_currency(user_amounts.amount_to_pay(expense),
+                unit: expense.currency,
+                format: "%n %u") %>
                 to <%= expense.payer.name %>
                 for <%= expense.title %>
               </p>
@@ -215,23 +222,39 @@
             <% end %>
           <% end %>
 
-          <% if user_amounts.final_balance == 0 %>
-            <p class="text-muted">
-              You are settled up.
-            </p>
+          <% currencies = [] %>
+          <% @trip.expenses.each do |expense| %>
+            <% currencies << expense.currency %>
+          <% end %>
 
-          <% elsif user_amounts.final_balance > 0 %>
-            <p class="text-success">
-              Net balance:
-              <%= number_to_currency(user_amounts.final_balance) %>
-            </p>
+          <% currencies = currencies.uniq %>
 
-          <% elsif user_amounts.final_balance < 0 %>
-            <p class="text-danger">
-              Net balance:
-              <%= number_to_currency(user_amounts.final_balance) %>
-            </p>
+          <% currencies.each do |currency| %>
+
+            <% if user_amounts.final_balance(currency) == 0 %>
+              <p class="text-muted">
+                You are settled up in <%= currency %>.
+              </p>
+
+            <% elsif user_amounts.final_balance(currency) > 0 %>
+              <p class="text-success">
+                Net balance:
+                <%= number_to_currency(user_amounts.final_balance(currency),
+                unit: currency,
+                format: "%n %u"
+                ) %>
+              </p>
+
+            <% elsif user_amounts.final_balance(currency) < 0 %>
+              <p class="text-danger">
+                Net balance:
+                <%= number_to_currency(user_amounts.final_balance(currency),
+                unit: currency,
+                format: "%n %u"
+                ) %>
+              </p>
           
+            <% end %>
           <% end %>
         
         </div>

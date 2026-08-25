@@ -79,7 +79,8 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
       currency: "RON",
       date: Date.new(2025, 10, 11),
       split_type: "equal",
-      payer_id: @user.id 
+      payer_id: @user.id,
+      user_ids: [@user.id] 
     }}  
 
     @expense.reload

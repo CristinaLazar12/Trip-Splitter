@@ -34,17 +34,17 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 100, UserAmount.new(@cristina.id, @trip.id).amount_to_pay(expense) #cristina
         assert_equal 100, UserAmount.new(@vali.id, @trip.id).amount_to_pay(expense) #Vali
 
-        assert_equal 200, UserAmount.new(@alex.id, @trip.id).total_to_receive #alex
-        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive #cristina
-        assert_equal 0, UserAmount.new(@vali.id, @trip.id).total_to_receive #Vali
+        assert_equal 200, UserAmount.new(@alex.id, @trip.id).total_to_receive("EUR") #alex
+        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive("EUR") #cristina
+        assert_equal 0, UserAmount.new(@vali.id, @trip.id).total_to_receive("EUR") #Vali
 
-        assert_equal 0, UserAmount.new(@alex.id, @trip.id).total_to_pay #alex
-        assert_equal 100, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
-        assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay #Vali
+        assert_equal 0, UserAmount.new(@alex.id, @trip.id).total_to_pay("EUR") #alex
+        assert_equal 100, UserAmount.new(@cristina.id, @trip.id).total_to_pay("EUR") #cristina
+        assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay("EUR") #Vali
 
-        assert_equal 200, UserAmount.new(@alex.id, @trip.id).final_balance #alex
-        assert_equal -100, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
-        assert_equal -100, UserAmount.new(@vali.id, @trip.id).final_balance #Vali
+        assert_equal 200, UserAmount.new(@alex.id, @trip.id).final_balance("EUR") #alex
+        assert_equal -100, UserAmount.new(@cristina.id, @trip.id).final_balance("EUR") #cristina
+        assert_equal -100, UserAmount.new(@vali.id, @trip.id).final_balance("EUR") #Vali
 
         expense = Expense.create!(title: "hotel", 
                                  amount: 150,
@@ -66,17 +66,17 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 75, UserAmount.new(@cristina.id, @trip.id).amount_to_pay(expense) #cristina
         assert_equal 75, UserAmount.new(@alex.id, @trip.id).amount_to_pay(expense) #alex
 
-        assert_equal 150, UserAmount.new(@vali.id, @trip.id).total_to_receive #vali
-        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive #cristina
-        assert_equal 200, UserAmount.new(@alex.id, @trip.id).total_to_receive #alex
+        assert_equal 150, UserAmount.new(@vali.id, @trip.id).total_to_receive("EUR") #vali
+        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive("EUR") #cristina
+        assert_equal 200, UserAmount.new(@alex.id, @trip.id).total_to_receive("EUR") #alex
 
-        assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay #vali
-        assert_equal 175, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
-        assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay #alex
+        assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay("EUR") #vali
+        assert_equal 175, UserAmount.new(@cristina.id, @trip.id).total_to_pay("EUR") #cristina
+        assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay("EUR") #alex
 
-        assert_equal 50, UserAmount.new(@vali.id, @trip.id).final_balance #Vali
-        assert_equal -175, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
-        assert_equal 125, UserAmount.new(@alex.id, @trip.id).final_balance #alex
+        assert_equal 50, UserAmount.new(@vali.id, @trip.id).final_balance("EUR") #Vali
+        assert_equal -175, UserAmount.new(@cristina.id, @trip.id).final_balance("EUR") #cristina
+        assert_equal 125, UserAmount.new(@alex.id, @trip.id).final_balance("EUR") #alex
 
         expense = Expense.create!(title: "shopping", 
                                  amount: 100,
@@ -96,17 +96,17 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 100, UserAmount.new(@cristina.id, @trip.id).amount_to_pay(expense) #cristina
         assert_equal 0, UserAmount.new(@vali.id, @trip.id).amount_to_pay(expense) #vali
 
-        assert_equal 300, UserAmount.new(@alex.id, @trip.id).total_to_receive #alex
-        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive #cristina
-        assert_equal 150, UserAmount.new(@vali.id, @trip.id).total_to_receive #vali
+        assert_equal 300, UserAmount.new(@alex.id, @trip.id).total_to_receive("EUR") #alex
+        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive("EUR") #cristina
+        assert_equal 150, UserAmount.new(@vali.id, @trip.id).total_to_receive("EUR") #vali
 
-        assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay #alex
-        assert_equal 275, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
-        assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay #vali
+        assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay("EUR") #alex
+        assert_equal 275, UserAmount.new(@cristina.id, @trip.id).total_to_pay("EUR") #cristina
+        assert_equal 100, UserAmount.new(@vali.id, @trip.id).total_to_pay("EUR") #vali
 
-        assert_equal 225, UserAmount.new(@alex.id, @trip.id).final_balance #alex
-        assert_equal -275, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
-        assert_equal 50, UserAmount.new(@vali.id, @trip.id).final_balance #vali
+        assert_equal 225, UserAmount.new(@alex.id, @trip.id).final_balance("EUR") #alex
+        assert_equal -275, UserAmount.new(@cristina.id, @trip.id).final_balance("EUR") #cristina
+        assert_equal 50, UserAmount.new(@vali.id, @trip.id).final_balance("EUR") #vali
 
 
         expense = Expense.create!(title: "meci fotbal", 
@@ -129,17 +129,56 @@ class UserAmountTest < ActiveSupport::TestCase
         assert_equal 100, UserAmount.new(@vali.id, @trip.id).amount_to_pay(expense) #vali
         assert_equal 0, UserAmount.new(@cristina.id, @trip.id).amount_to_pay(expense) #cristina
 
-        assert_equal 400, UserAmount.new(@alex.id, @trip.id).total_to_receive #alex
-        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive #cristina
-        assert_equal 150, UserAmount.new(@vali.id, @trip.id).total_to_receive #vali
+        assert_equal 400, UserAmount.new(@alex.id, @trip.id).total_to_receive("EUR") #alex
+        assert_equal 0, UserAmount.new(@cristina.id, @trip.id).total_to_receive("EUR") #cristina
+        assert_equal 150, UserAmount.new(@vali.id, @trip.id).total_to_receive("EUR") #vali
 
-        assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay #alex
-        assert_equal 275, UserAmount.new(@cristina.id, @trip.id).total_to_pay #cristina
-        assert_equal 200, UserAmount.new(@vali.id, @trip.id).total_to_pay #vali
+        assert_equal 75, UserAmount.new(@alex.id, @trip.id).total_to_pay("EUR") #alex
+        assert_equal 275, UserAmount.new(@cristina.id, @trip.id).total_to_pay("EUR") #cristina
+        assert_equal 200, UserAmount.new(@vali.id, @trip.id).total_to_pay("EUR") #vali
 
-        assert_equal 325, UserAmount.new(@alex.id, @trip.id).final_balance #alex
-        assert_equal -275, UserAmount.new(@cristina.id, @trip.id).final_balance #cristina
-        assert_equal -50, UserAmount.new(@vali.id, @trip.id).final_balance #vali
+        assert_equal 325, UserAmount.new(@alex.id, @trip.id).final_balance("EUR") #alex
+        assert_equal -275, UserAmount.new(@cristina.id, @trip.id).final_balance("EUR") #cristina
+        assert_equal -50, UserAmount.new(@vali.id, @trip.id).final_balance("EUR") #vali
+    end
+
+    test "final balance is calculated separately by currency" do
+        expense_eur = Expense.create!(
+            title: "Hotel",
+            amount: 100,
+            currency: "EUR",
+            date: Date.today,
+            payer: @alex,
+            trip: @trip,
+            split_type: :equal
+        )
+
+        ExpensesUser.create!(
+            expense_id: expense_eur.id,
+            user_id: @cristina.id,
+            amount: 50
+        )
+
+        expense_ron = Expense.create!(
+            title: "Dinner",
+            amount: 200,
+            currency: "RON",
+            date: Date.today,
+            payer: @alex,
+            trip: @trip,
+            split_type: :equal
+        )
+
+        ExpensesUser.create!(
+            expense_id: expense_ron.id,
+            user_id: @cristina.id,
+            amount: 100
+        ) 
+
+        user_amount = UserAmount.new(@alex.id, @trip.id)
+
+        assert_equal 50, user_amount.final_balance("EUR")
+        assert_equal 100, user_amount.final_balance("RON")
     end
 end
 
